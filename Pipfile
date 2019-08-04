@@ -8,6 +8,7 @@ verify_ssl = true
 [packages]
 h5py = "*"
 pyqt5 = "*"
+regex = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.6"
