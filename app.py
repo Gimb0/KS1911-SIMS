@@ -76,6 +76,9 @@ class Main(QMainWindow):
 
     def initUI(self):
         # ----- Windows Settings -----
+        widget = QWidget()
+        self.setCentralWidget(widget)
+        layout = QFormLayout()
         self.resize(400, 420)
         self.setWindowTitle('SIMS Data Extractor')
 
@@ -91,9 +94,27 @@ class Main(QMainWindow):
         fileMenu.addAction(openAction)
 
 
-        # ----- Display Text -----
-        self.text = QTextEdit(self)
-        self.setCentralWidget(self.text)
+        # ----- Widgets -----
+        self.dataLabel = QLabel("Data File:")
+        self.dataText = QTextEdit(self)
+        self.tempLabel = QLabel("Temperature:")
+        self.tempText = QTextEdit()
+        self.gasLabel = QLabel("Composition of Gas:")
+        self.gasText = QTextEdit()
+        self.coolingLabel = QLabel("Cooling method:")
+        self.coolingText = QTextEdit()
+        self.saveButton = QPushButton("Save", self)
+        self.saveButton.clicked.connect(self.saveData)
+
+
+        # ----- Window Layout -----
+        layout.addRow(self.dataLabel, self.dataText)
+        layout.addRow(self.tempLabel, self.tempText)
+        layout.addRow(self.gasLabel, self.gasText)
+        layout.addRow(self.coolingLabel, self.coolingText)
+        layout.addWidget(self.saveButton)
+
+        widget.setLayout(layout)
     
     def openDataFile(self):
         filename = QFileDialog.getOpenFileName(self, 'Open File')
@@ -124,10 +145,10 @@ class Main(QMainWindow):
                     if match(r'\*{3} MEASUREMENT CONDITIONS, \w+\.dp \*{3}:', line):
                         data = "MC"
                         counter = 3
-                elif counter > 0:
+                elif counter > 0: # Skip from header of data section to start of data
                     counter -= 1
                     continue
-                else:
+                else: # Iterate over lines, reading in data.
                     if counter == 0:
                         if data == "MC":
                             while line != "\n":
@@ -137,10 +158,18 @@ class Main(QMainWindow):
                                 self.ds.addSpecies(s[0], s[1], s[2], s[3], s[4])
                                 line = f.readline()
                             break
+        
+        self.dataText.setText(self.ds.getClassVars() + self.ds.getSpecies())
 
-        print(self.ds.getClassVars())
-        print(self.ds.getSpecies())
-        self.text.setText(self.ds.getClassVars() + self.ds.getSpecies())
+    # https://stackoverflow.com/questions/29129095/save-additional-attributes-in-pandas-dataframe/29130146#29130146
+    def saveData(self):
+        print("Saving Data")
+        print("# ----- User Input -----")
+        print(self.tempText.toPlainText())
+        print(self.gasText.toPlainText())
+        print(self.coolingText.toPlainText())
+
+
 
 def main():
     app = QApplication(sys.argv)
