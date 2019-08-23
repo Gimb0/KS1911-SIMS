@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>567</width>
+    <height>658</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>SIMS Data Extractor</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTabWidget" name="TabWidget">
+      <property name="currentIndex">
+       <number>2</number>
+      </property>
+      <widget class="QWidget" name="FormTab">
+       <attribute name="title">
+        <string>Input Form</string>
+       </attribute>
+       <layout class="QFormLayout" name="formLayout">
+        <item row="1" column="0">
+         <widget class="QLabel" name="formGasLabel">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Composition of Gas</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLabel" name="formTempLabel">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Temperature</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QTextEdit" name="formGasInput"/>
+        </item>
+        <item row="2" column="1">
+         <widget class="QTextEdit" name="formTempInput"/>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="formCoolingLabel">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Method of Cooling</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLabel" name="formExtrasLabel">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Extra Information</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QTextEdit" name="formCoolingInput"/>
+        </item>
+        <item row="5" column="1">
+         <widget class="QTextEdit" name="formExtrasInput"/>
+        </item>
+        <item row="7" column="1">
+         <widget class="QPushButton" name="formSaveButton">
+          <property name="text">
+           <string>SAVE</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="formSampleIDLabel">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Sample ID</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="DataFileTab">
+       <attribute name="title">
+        <string>Raw Data FIle</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QLabel" name="rawDataLabel">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Data File</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTextBrowser" name="rawDataBrowser"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="ExtractTab">
+       <attribute name="title">
+        <string>Extract Options</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="1" column="0">
+         <widget class="QLabel" name="extractTempLabel">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Temperature</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QListView" name="extractSpeciesList"/>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="extractSpeciesLabel">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>    Species    </string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QPushButton" name="exractCSVButton">
+          <property name="text">
+           <string>Save as CSV</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QPushButton" name="extractJSONButton">
+          <property name="text">
+           <string>Save as JSON</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QCheckBox" name="extractTempChkBox">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>567</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionOpenFile"/>
+   </widget>
+   <addaction name="menuFile"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionOpenFile">
+   <property name="text">
+    <string>Open File</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
