@@ -30,9 +30,13 @@ class MainUI(QtWidgets.QMainWindow):
         self.show()
 
     def openDataFile(self):
-        filename = QtWidgets.QFileDialog.getOpenFileName(self, 'Open File')
-        with open(filename[0], 'r') as dataFile:
-            self.rawDataBrowser.setText(dataFile.read())
+        try:
+            filename = QtWidgets.QFileDialog.getOpenFileName(self, 'Open File')
+            with open(filename[0], 'r') as dataFile:
+                self.rawDataBrowser.setText(dataFile.read())
+        except FileNotFoundError:
+            # A file was not chosen so do nothing
+            pass
 
     def showHelp(self):
         help = HelpUI()
