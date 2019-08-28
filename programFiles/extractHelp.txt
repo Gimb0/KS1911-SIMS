@@ -1,0 +1,4 @@
+This is sample text to be displayed
+
+This will be to help users with the
+extracting data tab in the main app

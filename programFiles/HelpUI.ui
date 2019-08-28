@@ -17,7 +17,7 @@
    <item>
     <widget class="QTextBrowser" name="helpBrowser">
      <property name="placeholderText">
-      <string>[Help Text] - This Box will detail how to extract the data that you need</string>
+      <string>[Help Text]</string>
      </property>
     </widget>
    </item>

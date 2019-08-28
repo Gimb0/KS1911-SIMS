@@ -3,30 +3,54 @@
 import sys
 from PyQt5 import QtWidgets, uic
 
-class HelpUI(QtWidgets.QMessageBox):
+class HelpUI(QtWidgets.QDialog):
     def __init__(self):
         super(HelpUI, self).__init__()
-        uic.loadUi('guiFiles/HelpUI.ui', self)
+        uic.loadUi('programFiles/HelpUI.ui', self)
 
-        self.show()
+        # Get pointer to text browser
+        self.helpBrwoser = self.findChild(QtWidgets.QTextBrowser, 'helpBrowser')
+
+    def extractHelp(self):
+        # Display help message for extract options tab
+        try:
+            with open('programFiles/extractHelp.txt', 'r') as helpFile:
+                self.helpBrwoser.setText(helpFile.read())
+                self.show()
+        except:
+            self.close
+    
+    def aboutHelp(self):
+        # Display help message for extract options tab
+        try:
+            with open('programFiles/aboutHelp.txt', 'r') as helpFile:
+                self.helpBrwoser.setText(helpFile.read())
+                self.show()
+        except:
+            self.close()
 
 class MainUI(QtWidgets.QMainWindow):
 
     def __init__(self):
         super(MainUI, self).__init__()
-        uic.loadUi('guiFiles/MainUI.ui', self)
+        uic.loadUi('programFiles/MainUI.ui', self)
+
+        self.help = HelpUI()
 
         # Add Action for Open File in Menu Bar
         self.openFile = self.findChild(QtWidgets.QAction, 'actionOpenFile')
         self.openFile.triggered.connect(self.openDataFile)
+
+        # Add action for extract options menubar option
+        self.extractHelp = self.findChild(QtWidgets.QAction, 'actionExtractOptions')
+        self.extractHelp.triggered.connect(self.extractOptionsHelp)
+
+        # Add action for about menubar option
+        self.aboutDialog = self.findChild(QtWidgets.QAction, 'actionAbout')
+        self.aboutDialog.triggered.connect(self.aboutDialogBox)
         
         # Get Pointer to Data Browser Component
         self.rawDataBrowser = self.findChild(QtWidgets.QTextBrowser, 'rawDataBrowser')
-
-        # Get Pointer to Help Button
-        self.helpButton = self.findChild(QtWidgets.QPushButton, 'extractHelpButton')
-        self.helpButton.clicked.connect(self.showHelp)
-        
         self.show()
 
     def openDataFile(self):
@@ -38,9 +62,13 @@ class MainUI(QtWidgets.QMainWindow):
             # A file was not chosen so do nothing
             pass
 
-    def showHelp(self):
-        help = HelpUI()
-        help.exec_()
+    def extractOptionsHelp(self):
+        self.help.extractHelp()
+        self.help.exec_()
+
+    def aboutDialogBox(self):
+        self.help.aboutHelp()
+        self.help.exec_()
 
 app = QtWidgets.QApplication(sys.argv)
 window = MainUI()

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>716</height>
+    <width>747</width>
+    <height>682</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,11 +21,14 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="TabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
+      </property>
+      <property name="tabsClosable">
+       <bool>false</bool>
       </property>
       <widget class="QWidget" name="FormTab">
        <attribute name="title">
-        <string>Input Form</string>
+        <string>Input</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_3">
         <property name="sizeConstraint">
@@ -218,6 +221,17 @@
         </item>
         <item row="3" column="0">
          <widget class="QTextBrowser" name="textBrowser">
+          <property name="html">
+           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;List of Species in data file&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;*** MEASUREMENT CONDITIONS, [DATA FILE] ***&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;....&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
           <property name="placeholderText">
            <string>List of species in data file</string>
           </property>
@@ -231,7 +245,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Main Analytical Parameters</string>
+           <string>Extra</string>
           </property>
          </widget>
         </item>
@@ -242,12 +256,8 @@
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Main Anyltical Parameters of the data file&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Any extra metadata desired by the client&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Primary IONs&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Impact Energy&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Secondary ION Polarity&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;etc...&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
@@ -260,7 +270,7 @@ p, li { white-space: pre-wrap; }
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QLabel" name="rawDataLabel">
+         <widget class="QLabel" name="headingLabel">
           <property name="font">
            <font>
             <pointsize>12</pointsize>
@@ -284,7 +294,7 @@ p, li { white-space: pre-wrap; }
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
            <item row="2" column="1">
-            <widget class="QCheckBox" name="checkBox_4">
+            <widget class="QCheckBox" name="analysisRcpeChckBox">
              <property name="text">
               <string>Analysis Recipe</string>
              </property>
@@ -298,75 +308,75 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QCheckBox" name="checkBox_3">
+            <widget class="QCheckBox" name="analysisPstChkBox">
              <property name="text">
               <string>Analysis Position</string>
              </property>
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QCheckBox" name="checkBox_5">
+            <widget class="QCheckBox" name="acquParamChckBox">
              <property name="text">
               <string>Acquisition Parameters</string>
              </property>
             </widget>
            </item>
            <item row="3" column="0">
-            <widget class="QCheckBox" name="checkBox_6">
+            <widget class="QCheckBox" name="msrmntCondChckBox">
              <property name="text">
               <string>Measurement Conditions</string>
              </property>
             </widget>
            </item>
            <item row="4" column="0">
-            <widget class="QCheckBox" name="checkBox_8">
+            <widget class="QCheckBox" name="optInstParamChckBox">
              <property name="text">
               <string>Optional Instrumental Parameters</string>
              </property>
             </widget>
            </item>
            <item row="0" column="0">
-            <widget class="QLabel" name="label_8">
+            <widget class="QLabel" name="showOnlyLabel">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
               </font>
              </property>
              <property name="text">
-              <string>Filter Options</string>
+              <string>Show Only:</string>
              </property>
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="QCheckBox" name="checkBox_7">
+            <widget class="QCheckBox" name="mainAnalyticalyChckBox">
              <property name="text">
               <string>Main Analytical Parameters</string>
              </property>
             </widget>
            </item>
            <item row="4" column="1">
-            <widget class="QCheckBox" name="checkBox_9">
+            <widget class="QCheckBox" name="ionDtctrParamChckBox">
              <property name="text">
               <string>Ion Detector Parameters</string>
              </property>
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QCheckBox" name="checkBox_2">
+            <widget class="QCheckBox" name="dataChkBox">
              <property name="text">
               <string>Raw Species Count Data</string>
              </property>
             </widget>
            </item>
            <item row="5" column="0">
-            <widget class="QCheckBox" name="checkBox_10">
+            <widget class="QCheckBox" name="othersCheckBox">
              <property name="text">
               <string>Others</string>
              </property>
             </widget>
            </item>
            <item row="5" column="1">
-            <widget class="QCheckBox" name="checkBox_11">
+            <widget class="QCheckBox" name="calibParamChckBox">
              <property name="text">
               <string>Calibration Parameters</string>
              </property>
@@ -379,23 +389,11 @@ p, li { white-space: pre-wrap; }
       </widget>
       <widget class="QWidget" name="ProcessingTab">
        <attribute name="title">
-        <string>Normalize Data</string>
+        <string>Normalize</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QLabel" name="label_9">
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Species to normalize data for</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QListWidget" name="listWidget">
+         <widget class="QListWidget" name="normalizeList">
           <property name="font">
            <font>
             <pointsize>10</pointsize>
@@ -407,6 +405,11 @@ p, li { white-space: pre-wrap; }
           <property name="viewMode">
            <enum>QListView::ListMode</enum>
           </property>
+          <item>
+           <property name="text">
+            <string>Example Species from given data file:</string>
+           </property>
+          </item>
           <item>
            <property name="text">
             <string>1H</string>
@@ -445,7 +448,19 @@ p, li { white-space: pre-wrap; }
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_2">
+         <widget class="QLabel" name="normalizeLabel">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Species to normalize data for</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="normalizeButton">
           <property name="text">
            <string>Normalize Species Data</string>
           </property>
@@ -461,6 +476,18 @@ p, li { white-space: pre-wrap; }
         <string>Extract Options</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="extractSpeciesLabel">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>    Species    </string>
+          </property>
+         </widget>
+        </item>
         <item row="2" column="0">
          <widget class="QFrame" name="frame">
           <property name="frameShape">
@@ -470,42 +497,10 @@ p, li { white-space: pre-wrap; }
            <enum>QFrame::Raised</enum>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
-           <item row="5" column="2">
-            <widget class="QPushButton" name="extractHelpButton">
-             <property name="text">
-              <string>Help</string>
-             </property>
-             <property name="checkable">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QSpinBox" name="spinBox"/>
-           </item>
-           <item row="5" column="0">
-            <widget class="QPushButton" name="exractCSVButton">
-             <property name="text">
-              <string>Save as CSV</string>
-             </property>
-            </widget>
-           </item>
            <item row="5" column="1">
             <widget class="QPushButton" name="extractJSONButton">
              <property name="text">
               <string>Save as JSON</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_2">
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Minimum</string>
              </property>
             </widget>
            </item>
@@ -533,9 +528,6 @@ p, li { white-space: pre-wrap; }
              </property>
             </widget>
            </item>
-           <item row="3" column="1">
-            <widget class="QSpinBox" name="spinBox_2"/>
-           </item>
            <item row="1" column="0">
             <widget class="QCheckBox" name="extractTempChkBox">
              <property name="font">
@@ -548,6 +540,16 @@ p, li { white-space: pre-wrap; }
              </property>
             </widget>
            </item>
+           <item row="2" column="1">
+            <widget class="QSpinBox" name="spinBox"/>
+           </item>
+           <item row="5" column="0">
+            <widget class="QPushButton" name="exractCSVButton">
+             <property name="text">
+              <string>Save as CSV</string>
+             </property>
+            </widget>
+           </item>
            <item row="6" column="0">
             <widget class="QPushButton" name="pushButton_3">
              <property name="text">
@@ -555,22 +557,66 @@ p, li { white-space: pre-wrap; }
              </property>
             </widget>
            </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Minimum</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QSpinBox" name="spinBox_2"/>
+           </item>
           </layout>
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QListView" name="extractSpeciesList"/>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="extractSpeciesLabel">
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>    Species    </string>
-          </property>
+         <widget class="QListWidget" name="extractSpeciesList">
+          <item>
+           <property name="text">
+            <string>Example Species to extract data for</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>1H</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>24</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>47Ti</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>52Cr</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>49Ti18O</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>48Ti2</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>197Au</string>
+           </property>
+          </item>
          </widget>
         </item>
        </layout>
@@ -584,7 +630,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>747</width>
      <height>21</height>
     </rect>
    </property>
@@ -593,13 +639,93 @@ p, li { white-space: pre-wrap; }
      <string>File</string>
     </property>
     <addaction name="actionOpenFile"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionUndo_Ctrl_Z"/>
+    <addaction name="actionRedo_Shft_Ctrl_Z"/>
+    <addaction name="separator"/>
+    <addaction name="actionCut_Ctrl_X"/>
+    <addaction name="actionCopy_Ctrl_C"/>
+    <addaction name="actionPaste_Ctrl_V"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+    <addaction name="separator"/>
+    <addaction name="actionInputForm"/>
+    <addaction name="actionDataFile"/>
+    <addaction name="actionNormalize"/>
+    <addaction name="actionExtractOptions"/>
    </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionOpenFile">
    <property name="text">
     <string>Open File</string>
+   </property>
+  </action>
+  <action name="actionUndo_Ctrl_Z">
+   <property name="text">
+    <string>Undo     Ctrl+Z</string>
+   </property>
+  </action>
+  <action name="actionRedo_Shft_Ctrl_Z">
+   <property name="text">
+    <string>Redo      Shft+Ctrl+Z</string>
+   </property>
+  </action>
+  <action name="actionCut_Ctrl_X">
+   <property name="text">
+    <string>Cut        Ctrl+X</string>
+   </property>
+  </action>
+  <action name="actionCopy_Ctrl_C">
+   <property name="text">
+    <string>Copy     Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actionPaste_Ctrl_V">
+   <property name="text">
+    <string>Paste     Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionInputForm">
+   <property name="text">
+    <string>Input Form</string>
+   </property>
+  </action>
+  <action name="actionDataFile">
+   <property name="text">
+    <string>Data File</string>
+   </property>
+  </action>
+  <action name="actionNormalize">
+   <property name="text">
+    <string>Normalize</string>
+   </property>
+  </action>
+  <action name="actionExtractOptions">
+   <property name="text">
+    <string>Extract Options</string>
    </property>
   </action>
  </widget>
