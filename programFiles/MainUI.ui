@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>747</width>
-    <height>682</height>
+    <width>1440</width>
+    <height>900</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,7 +21,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="TabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <property name="tabsClosable">
        <bool>false</bool>
@@ -35,16 +35,28 @@
          <enum>QLayout::SetNoConstraint</enum>
         </property>
         <item row="12" column="0">
-         <widget class="QTextEdit" name="formSplutteringInput"/>
+         <widget class="QTextEdit" name="formSplutteringInput">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+         </widget>
         </item>
         <item row="8" column="0">
-         <widget class="QTextEdit" name="formGasInput"/>
+         <widget class="QTextEdit" name="formGasInput">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+         </widget>
         </item>
         <item row="9" column="1">
          <widget class="QLabel" name="formTimeLabel">
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
           <property name="text">
@@ -56,22 +68,29 @@
          <widget class="QLabel" name="label_5">
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>18</pointsize>
+            <underline>true</underline>
            </font>
           </property>
           <property name="text">
-           <string>User Input:</string>
+           <string>User Input</string>
           </property>
          </widget>
         </item>
         <item row="10" column="0">
-         <widget class="QTextEdit" name="formCoolingInput"/>
+         <widget class="QTextEdit" name="formCoolingInput">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+         </widget>
         </item>
         <item row="11" column="1">
          <widget class="QLabel" name="formExtrasLabel">
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
           <property name="text">
@@ -80,13 +99,19 @@
          </widget>
         </item>
         <item row="12" column="1">
-         <widget class="QTextEdit" name="formExtrasInput"/>
+         <widget class="QTextEdit" name="formExtrasInput">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+         </widget>
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="label_6">
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
           <property name="text">
@@ -98,7 +123,7 @@
          <widget class="QLabel" name="label">
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
           <property name="text">
@@ -110,7 +135,7 @@
          <widget class="QLabel" name="formCoolingLabel">
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
           <property name="text">
@@ -139,7 +164,7 @@
          <widget class="QLabel" name="formTempLabel">
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
           <property name="text">
@@ -148,13 +173,19 @@
          </widget>
         </item>
         <item row="10" column="1">
-         <widget class="QTextEdit" name="formTimeInput"/>
+         <widget class="QTextEdit" name="formTimeInput">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+         </widget>
         </item>
         <item row="1" column="0">
          <widget class="QLabel" name="label_4">
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
           <property name="text">
@@ -166,7 +197,7 @@
          <widget class="QLabel" name="formSplutteringLabel">
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
           <property name="text">
@@ -175,13 +206,19 @@
          </widget>
         </item>
         <item row="8" column="1">
-         <widget class="QTextEdit" name="formTempInput"/>
+         <widget class="QTextEdit" name="formTempInput">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+         </widget>
         </item>
         <item row="7" column="0">
          <widget class="QLabel" name="formGasLabel">
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
           <property name="text">
@@ -200,7 +237,7 @@
          <widget class="QLabel" name="formSampleIDLabel">
           <property name="font">
            <font>
-            <pointsize>14</pointsize>
+            <pointsize>24</pointsize>
             <weight>75</weight>
             <bold>true</bold>
            </font>
@@ -221,16 +258,21 @@
         </item>
         <item row="3" column="0">
          <widget class="QTextBrowser" name="textBrowser">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
           <property name="html">
            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;List of Species in data file&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;*** MEASUREMENT CONDITIONS, [DATA FILE] ***&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;....&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.SF NS Text'; font-size:14pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;List of Species in data file&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;*** MEASUREMENT CONDITIONS, [DATA FILE] ***&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;....&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2';&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="placeholderText">
            <string>List of species in data file</string>
@@ -241,7 +283,7 @@ p, li { white-space: pre-wrap; }
          <widget class="QLabel" name="label_7">
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
           <property name="text">
@@ -251,14 +293,19 @@ p, li { white-space: pre-wrap; }
         </item>
         <item row="3" column="1">
          <widget class="QTextBrowser" name="textBrowser_2">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
           <property name="html">
            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Any extra metadata desired by the client&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.SF NS Text'; font-size:14pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:13pt;&quot;&gt;Any extra metadata desired by the client&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
@@ -273,7 +320,7 @@ p, li { white-space: pre-wrap; }
          <widget class="QLabel" name="headingLabel">
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
           <property name="text">
@@ -282,10 +329,21 @@ p, li { white-space: pre-wrap; }
          </widget>
         </item>
         <item>
-         <widget class="QTextBrowser" name="rawDataBrowser"/>
+         <widget class="QTextBrowser" name="rawDataBrowser">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QFrame" name="frame_2">
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -293,6 +351,27 @@ p, li { white-space: pre-wrap; }
            <enum>QFrame::Raised</enum>
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
+           <item row="3" column="1">
+            <widget class="QCheckBox" name="msrmntCondChckBox">
+             <property name="text">
+              <string>Measurement Conditions</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QCheckBox" name="dataChkBox">
+             <property name="text">
+              <string>Data Start</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QCheckBox" name="analysisPstChkBox">
+             <property name="text">
+              <string>Analysis Position</string>
+             </property>
+            </widget>
+           </item>
            <item row="2" column="1">
             <widget class="QCheckBox" name="analysisRcpeChckBox">
              <property name="text">
@@ -300,38 +379,17 @@ p, li { white-space: pre-wrap; }
              </property>
             </widget>
            </item>
-           <item row="6" column="1">
-            <widget class="QPushButton" name="pushButton">
-             <property name="text">
-              <string>Filter</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QCheckBox" name="analysisPstChkBox">
-             <property name="text">
-              <string>Analysis Position</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
+           <item row="3" column="0">
             <widget class="QCheckBox" name="acquParamChckBox">
              <property name="text">
               <string>Acquisition Parameters</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="0">
-            <widget class="QCheckBox" name="msrmntCondChckBox">
+           <item row="8" column="1">
+            <widget class="QPushButton" name="pushButton">
              <property name="text">
-              <string>Measurement Conditions</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <widget class="QCheckBox" name="optInstParamChckBox">
-             <property name="text">
-              <string>Optional Instrumental Parameters</string>
+              <string>Filter</string>
              </property>
             </widget>
            </item>
@@ -339,7 +397,7 @@ p, li { white-space: pre-wrap; }
             <widget class="QLabel" name="showOnlyLabel">
              <property name="font">
               <font>
-               <pointsize>12</pointsize>
+               <pointsize>18</pointsize>
               </font>
              </property>
              <property name="text">
@@ -347,38 +405,55 @@ p, li { white-space: pre-wrap; }
              </property>
             </widget>
            </item>
-           <item row="3" column="1">
+           <item row="5" column="0">
             <widget class="QCheckBox" name="mainAnalyticalyChckBox">
              <property name="text">
               <string>Main Analytical Parameters</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="1">
+           <item row="5" column="1">
+            <widget class="QCheckBox" name="optInstParamChckBox">
+             <property name="text">
+              <string>Optional Instrumental Parameters</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0">
             <widget class="QCheckBox" name="ionDtctrParamChckBox">
              <property name="text">
               <string>Ion Detector Parameters</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QCheckBox" name="dataChkBox">
-             <property name="text">
-              <string>Raw Species Count Data</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0">
+           <item row="6" column="1">
             <widget class="QCheckBox" name="othersCheckBox">
              <property name="text">
               <string>Others</string>
              </property>
             </widget>
            </item>
-           <item row="5" column="1">
+           <item row="7" column="0">
             <widget class="QCheckBox" name="calibParamChckBox">
              <property name="text">
               <string>Calibration Parameters</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QCheckBox" name="dataFileChckBox">
+             <property name="font">
+              <font>
+               <pointsize>16</pointsize>
+               <weight>50</weight>
+               <italic>false</italic>
+               <bold>false</bold>
+               <strikeout>false</strikeout>
+               <kerning>false</kerning>
+              </font>
+             </property>
+             <property name="text">
+              <string>Data Files</string>
              </property>
             </widget>
            </item>
@@ -393,10 +468,22 @@ p, li { white-space: pre-wrap; }
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
+         <widget class="QLabel" name="normalizeLabel">
+          <property name="font">
+           <font>
+            <pointsize>18</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Species to normalize data for</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QListWidget" name="normalizeList">
           <property name="font">
            <font>
-            <pointsize>10</pointsize>
+            <pointsize>16</pointsize>
            </font>
           </property>
           <property name="selectionMode">
@@ -448,19 +535,12 @@ p, li { white-space: pre-wrap; }
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="normalizeLabel">
+         <widget class="QPushButton" name="normalizeButton">
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>16</pointsize>
            </font>
           </property>
-          <property name="text">
-           <string>Species to normalize data for</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="normalizeButton">
           <property name="text">
            <string>Normalize Species Data</string>
           </property>
@@ -480,7 +560,7 @@ p, li { white-space: pre-wrap; }
          <widget class="QLabel" name="extractSpeciesLabel">
           <property name="font">
            <font>
-            <pointsize>14</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
           <property name="text">
@@ -490,6 +570,11 @@ p, li { white-space: pre-wrap; }
         </item>
         <item row="2" column="0">
          <widget class="QFrame" name="frame">
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -508,7 +593,7 @@ p, li { white-space: pre-wrap; }
             <widget class="QLabel" name="label_3">
              <property name="font">
               <font>
-               <pointsize>12</pointsize>
+               <pointsize>16</pointsize>
               </font>
              </property>
              <property name="text">
@@ -520,7 +605,7 @@ p, li { white-space: pre-wrap; }
             <widget class="QCheckBox" name="checkBox">
              <property name="font">
               <font>
-               <pointsize>12</pointsize>
+               <pointsize>16</pointsize>
               </font>
              </property>
              <property name="text">
@@ -532,7 +617,7 @@ p, li { white-space: pre-wrap; }
             <widget class="QCheckBox" name="extractTempChkBox">
              <property name="font">
               <font>
-               <pointsize>12</pointsize>
+               <pointsize>16</pointsize>
               </font>
              </property>
              <property name="text">
@@ -561,7 +646,7 @@ p, li { white-space: pre-wrap; }
             <widget class="QLabel" name="label_2">
              <property name="font">
               <font>
-               <pointsize>12</pointsize>
+               <pointsize>16</pointsize>
               </font>
              </property>
              <property name="text">
@@ -577,6 +662,14 @@ p, li { white-space: pre-wrap; }
         </item>
         <item row="1" column="0">
          <widget class="QListWidget" name="extractSpeciesList">
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::MultiSelection</enum>
+          </property>
           <item>
            <property name="text">
             <string>Example Species to extract data for</string>
@@ -630,8 +723,8 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>747</width>
-     <height>21</height>
+     <width>1440</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
