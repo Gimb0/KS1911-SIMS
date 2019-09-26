@@ -5,6 +5,7 @@ from PyQt5 import QtWidgets, uic
 import io
 import pandas as pd;
 from datetime import timedelta, time
+from db_utils import dbUtils
 
 
 class MainUI(QtWidgets.QMainWindow):
@@ -17,6 +18,8 @@ class MainUI(QtWidgets.QMainWindow):
         self.openFile = self.findChild(QtWidgets.QAction, 'actionOpenFile')
         self.openFile.triggered.connect(self.openDataFile)
 
+        self.dbConn = dbUtils()
+
         self.show()
 
     def extractSimsData(self, handle):
@@ -25,7 +28,7 @@ class MainUI(QtWidgets.QMainWindow):
         for _ in range(4):
             next(handle)
         for line in handle:
-            if line.startswith('*** DATA END ***'):
+            if line.startswith('*** DATA END ***') or not line.strip():
                 databuf.seek(io.SEEK_SET)
                 return databuf
             databuf.write(line)
@@ -63,13 +66,16 @@ class MainUI(QtWidgets.QMainWindow):
         self.pIonsText = self.findChild(QtWidgets.QLineEdit, 'samplePriIONText')
         self.pIonsText.setText(self.pIons)
 
-        self.pIonsEnergyText = self.findChild(QtWidgets.QLineEdit, 'samplePriIONEText')
-        self.pIonsEnergyText.setText(self.pIonsEnergy)
+        self.pIonsEnergyValue = self.findChild(QtWidgets.QSpinBox, 'samplePriIONEValue')
+        self.pIonsEnergyValue.setValue(int(self.pIonsEnergy))
 
         self.dataPointsText = self.findChild(QtWidgets.QLineEdit, 'sampleDataPointsText')
         self.dataPointsText.setText(str(self.dataPoints))
         # except:
         #     pass
+    
+    # def getUIComponents(self):
+
 
     def openDataFile(self):
         try:
@@ -108,9 +114,10 @@ class MainUI(QtWidgets.QMainWindow):
             self.df = pd.read_csv(self.simsdata, header=None, delim_whitespace=True, skip_blank_lines=True)
             self.simsdata.close()
             self.df.columns = self.header
+            print(self.df)
 
         except FileNotFoundError:
-            # A file was not chosen so do nothing
+            # A file was not chosen or wrongly selected so do nothing
             pass
 
 app = QtWidgets.QApplication(sys.argv)

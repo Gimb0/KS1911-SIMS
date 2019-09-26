@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>852</width>
-    <height>641</height>
+    <height>715</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -23,8 +23,11 @@
    <layout class="QGridLayout" name="gridLayout_4">
     <item row="0" column="0">
      <widget class="QTabWidget" name="TabWidget">
+      <property name="tabPosition">
+       <enum>QTabWidget::North</enum>
+      </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="InputTab">
        <attribute name="title">
@@ -32,9 +35,9 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QGroupBox" name="inputDataGroupBox">
+         <widget class="QGroupBox" name="metadataGroup">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -47,12 +50,12 @@
           <property name="title">
            <string>Sample File Information</string>
           </property>
-          <layout class="QFormLayout" name="formLayout_3">
+          <layout class="QGridLayout" name="gridLayout_8">
            <item row="0" column="0">
-            <widget class="QFrame" name="sampleFrame1">
+            <widget class="QFrame" name="MDFrame1">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-               <horstretch>2</horstretch>
+              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+               <horstretch>30</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
@@ -62,8 +65,8 @@
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
-             <layout class="QFormLayout" name="formLayout">
-              <item row="1" column="0">
+             <layout class="QGridLayout" name="gridLayout_9">
+              <item row="0" column="0">
                <widget class="QLabel" name="sampleIDLabel">
                 <property name="font">
                  <font>
@@ -75,7 +78,7 @@
                 </property>
                </widget>
               </item>
-              <item row="1" column="1">
+              <item row="0" column="1">
                <widget class="QLineEdit" name="sampleIDText">
                 <property name="readOnly">
                  <bool>true</bool>
@@ -88,7 +91,7 @@
                 </property>
                </widget>
               </item>
-              <item row="2" column="0">
+              <item row="1" column="0">
                <widget class="QLabel" name="sampleDateLabel">
                 <property name="font">
                  <font>
@@ -100,7 +103,7 @@
                 </property>
                </widget>
               </item>
-              <item row="2" column="1">
+              <item row="1" column="1">
                <widget class="QLineEdit" name="sampleDateDate">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -113,7 +116,7 @@
                 </property>
                </widget>
               </item>
-              <item row="3" column="0">
+              <item row="2" column="0">
                <widget class="QLabel" name="sampleAcqTimeLabel">
                 <property name="font">
                  <font>
@@ -125,7 +128,7 @@
                 </property>
                </widget>
               </item>
-              <item row="3" column="1">
+              <item row="2" column="1">
                <widget class="QLineEdit" name="sampleAcqTimeTime">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -138,7 +141,7 @@
                 </property>
                </widget>
               </item>
-              <item row="4" column="0">
+              <item row="3" column="0">
                <widget class="QLabel" name="sampleDataPointsLabel">
                 <property name="font">
                  <font>
@@ -150,7 +153,7 @@
                 </property>
                </widget>
               </item>
-              <item row="4" column="1">
+              <item row="3" column="1">
                <widget class="QLineEdit" name="sampleDataPointsText">
                 <property name="readOnly">
                  <bool>true</bool>
@@ -164,26 +167,20 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QFrame" name="sampleFrame2">
+            <widget class="QFrame" name="MDFrame2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
              </property>
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
-             <layout class="QFormLayout" name="formLayout_6">
-              <item row="0" column="0">
-               <widget class="QLabel" name="speciesListLabel">
-                <property name="font">
-                 <font>
-                  <pointsize>12</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Species List:</string>
-                </property>
-               </widget>
-              </item>
+             <layout class="QGridLayout" name="gridLayout_10">
               <item row="2" column="0">
                <widget class="QLabel" name="samplePriIONLabel">
                 <property name="font">
@@ -196,7 +193,7 @@
                 </property>
                </widget>
               </item>
-              <item row="4" column="0">
+              <item row="3" column="0">
                <widget class="QLabel" name="samplePriIONELabel">
                 <property name="font">
                  <font>
@@ -208,17 +205,7 @@
                 </property>
                </widget>
               </item>
-              <item row="0" column="1">
-               <widget class="QLineEdit" name="speciesListText">
-                <property name="readOnly">
-                 <bool>true</bool>
-                </property>
-                <property name="placeholderText">
-                 <string>[Read Only]</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
+              <item row="2" column="2">
                <widget class="QLineEdit" name="samplePriIONText">
                 <property name="readOnly">
                  <bool>true</bool>
@@ -228,8 +215,26 @@
                 </property>
                </widget>
               </item>
-              <item row="4" column="1">
-               <widget class="QLineEdit" name="samplePriIONEText">
+              <item row="0" column="0">
+               <widget class="QLabel" name="speciesListLabel">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Species List:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QLineEdit" name="speciesListText">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="readOnly">
                  <bool>true</bool>
                 </property>
@@ -237,6 +242,9 @@
                  <string>[Read Only]</string>
                 </property>
                </widget>
+              </item>
+              <item row="3" column="2">
+               <widget class="QSpinBox" name="samplePriIONEValue"/>
               </item>
              </layout>
             </widget>
@@ -256,7 +264,7 @@
           </property>
           <layout class="QGridLayout" name="gridLayout">
            <item row="1" column="0" colspan="2">
-            <widget class="QFrame" name="frame_2">
+            <widget class="QFrame" name="MDInputFrame3">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
              </property>
@@ -265,7 +273,7 @@
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_3">
               <item>
-               <widget class="QLabel" name="label_8">
+               <widget class="QLabel" name="addNotesLabel">
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
@@ -277,7 +285,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QTextEdit" name="textEdit">
+               <widget class="QTextEdit" name="addNotesText">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>0</horstretch>
@@ -296,7 +304,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QFrame" name="frame">
+            <widget class="QFrame" name="MDInputFrame2">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                <horstretch>10</horstretch>
@@ -309,9 +317,9 @@
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
-             <layout class="QFormLayout" name="formLayout_5">
+             <layout class="QGridLayout" name="gridLayout_11">
               <item row="0" column="0">
-               <widget class="QLabel" name="label_5">
+               <widget class="QLabel" name="matrixCompLabel">
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
@@ -323,7 +331,7 @@
                </widget>
               </item>
               <item row="0" column="1">
-               <widget class="QComboBox" name="comboBox">
+               <widget class="QComboBox" name="matrixCompComboBox">
                 <property name="editable">
                  <bool>true</bool>
                 </property>
@@ -339,8 +347,8 @@
                 </item>
                </widget>
               </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_4">
+              <item row="1" column="0">
+               <widget class="QLabel" name="sputtRateLabel">
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
@@ -351,14 +359,14 @@
                 </property>
                </widget>
               </item>
-              <item row="2" column="1">
-               <widget class="QLineEdit" name="lineEdit_3"/>
+              <item row="1" column="1">
+               <widget class="QDoubleSpinBox" name="sputtRateValue"/>
               </item>
              </layout>
             </widget>
            </item>
            <item row="0" column="0">
-            <widget class="QFrame" name="sampleInputFrame1">
+            <widget class="QFrame" name="MDInputFrame1">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                <horstretch>10</horstretch>
@@ -371,8 +379,11 @@
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
-             <layout class="QFormLayout" name="formLayout_2">
-              <item row="1" column="0">
+             <layout class="QGridLayout" name="gridLayout_12">
+              <item row="0" column="1">
+               <widget class="QDoubleSpinBox" name="inputAnnTemp"/>
+              </item>
+              <item row="2" column="0">
                <widget class="QLabel" name="label_2">
                 <property name="font">
                  <font>
@@ -384,20 +395,8 @@
                 </property>
                </widget>
               </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="label_3">
-                <property name="font">
-                 <font>
-                  <pointsize>12</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Cooling Method:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QComboBox" name="comboBox_2">
+              <item row="4" column="1">
+               <widget class="QComboBox" name="inputCoolingMethod">
                 <property name="editable">
                  <bool>true</bool>
                 </property>
@@ -408,8 +407,17 @@
                 </item>
                </widget>
               </item>
-              <item row="1" column="1">
-               <widget class="QComboBox" name="comboBox_3"/>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_3">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Cooling Method:</string>
+                </property>
+               </widget>
               </item>
               <item row="0" column="0">
                <widget class="QLabel" name="label_7">
@@ -423,10 +431,10 @@
                 </property>
                </widget>
               </item>
-              <item row="0" column="1">
-               <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
+              <item row="2" column="1">
+               <widget class="QComboBox" name="inputGasComposition"/>
               </item>
-              <item row="2" column="0">
+              <item row="1" column="0">
                <widget class="QLabel" name="label_6">
                 <property name="font">
                  <font>
@@ -438,8 +446,8 @@
                 </property>
                </widget>
               </item>
-              <item row="2" column="1">
-               <widget class="QDateTimeEdit" name="dateTimeEdit"/>
+              <item row="1" column="1">
+               <widget class="QDoubleSpinBox" name="inputAnnTime"/>
               </item>
              </layout>
             </widget>
@@ -457,7 +465,7 @@
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
            <item row="0" column="0">
-            <widget class="QPushButton" name="pushButton">
+            <widget class="QPushButton" name="openDFButton">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -470,7 +478,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QPushButton" name="pushButton_2">
+            <widget class="QPushButton" name="saveDataButton">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -487,20 +495,20 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab">
+      <widget class="QWidget" name="ExtractTab">
        <attribute name="title">
         <string>Extract Sample Data</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_7">
         <item row="3" column="1">
-         <widget class="QPushButton" name="pushButton_3">
+         <widget class="QPushButton" name="extractDataButton">
           <property name="text">
            <string>EXTRACT SPECIES DATA TO CSV</string>
           </property>
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QGroupBox" name="groupBox_4">
+         <widget class="QGroupBox" name="filtersGroup">
           <property name="font">
            <font>
             <pointsize>12</pointsize>
@@ -511,7 +519,7 @@
           </property>
           <layout class="QGridLayout" name="gridLayout_3">
            <item row="0" column="0">
-            <widget class="QLabel" name="label_11">
+            <widget class="QLabel" name="filterSpeciesLabel">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -523,7 +531,7 @@
             </widget>
            </item>
            <item row="4" column="1">
-            <widget class="QLabel" name="label_15">
+            <widget class="QLabel" name="filterGasCompLabel">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -535,7 +543,7 @@
             </widget>
            </item>
            <item row="4" column="0">
-            <widget class="QLabel" name="label_14">
+            <widget class="QLabel" name="filterMatrixCompLabel">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -547,7 +555,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLabel" name="label_12">
+            <widget class="QLabel" name="filterAnnTempLabel">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -559,7 +567,7 @@
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QLabel" name="label_13">
+            <widget class="QLabel" name="filterCoolingLabel">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -571,12 +579,12 @@
             </widget>
            </item>
            <item row="1" column="0" rowspan="3">
-            <widget class="QListWidget" name="listWidget_2">
+            <widget class="QListWidget" name="filterSpeciesList">
              <property name="verticalScrollBarPolicy">
               <enum>Qt::ScrollBarAsNeeded</enum>
              </property>
              <property name="selectionMode">
-              <enum>QAbstractItemView::SingleSelection</enum>
+              <enum>QAbstractItemView::MultiSelection</enum>
              </property>
              <item>
               <property name="text">
@@ -606,7 +614,10 @@
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QListWidget" name="listWidget_3">
+            <widget class="QListWidget" name="filterAnnTempList">
+             <property name="selectionMode">
+              <enum>QAbstractItemView::MultiSelection</enum>
+             </property>
              <item>
               <property name="text">
                <string>Sample Temps</string>
@@ -625,7 +636,10 @@
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="QListWidget" name="listWidget_4">
+            <widget class="QListWidget" name="filterCoolingList">
+             <property name="selectionMode">
+              <enum>QAbstractItemView::MultiSelection</enum>
+             </property>
              <item>
               <property name="text">
                <string>Sample cooling methods</string>
@@ -639,7 +653,10 @@
             </widget>
            </item>
            <item row="5" column="1">
-            <widget class="QListWidget" name="listWidget_6">
+            <widget class="QListWidget" name="filterGasCompList">
+             <property name="selectionMode">
+              <enum>QAbstractItemView::MultiSelection</enum>
+             </property>
              <item>
               <property name="text">
                <string>Sample gas comps.</string>
@@ -653,7 +670,10 @@
             </widget>
            </item>
            <item row="5" column="0">
-            <widget class="QListWidget" name="listWidget_5">
+            <widget class="QListWidget" name="filterMatrixCompList">
+             <property name="selectionMode">
+              <enum>QAbstractItemView::MultiSelection</enum>
+             </property>
              <item>
               <property name="text">
                <string>Sample Matric comps</string>
@@ -675,7 +695,7 @@
          </widget>
         </item>
         <item row="1" column="1" rowspan="2">
-         <widget class="QGroupBox" name="groupBox_6">
+         <widget class="QGroupBox" name="outputSelectionsGroup">
           <property name="font">
            <font>
             <pointsize>12</pointsize>
@@ -686,7 +706,7 @@
           </property>
           <layout class="QGridLayout" name="gridLayout_5">
            <item row="0" column="0">
-            <widget class="QLabel" name="label_18">
+            <widget class="QLabel" name="outNormLabel">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -698,7 +718,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLabel" name="label_19">
+            <widget class="QLabel" name="outSpeciesLabel">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -710,7 +730,7 @@
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QListWidget" name="listWidget_7">
+            <widget class="QListWidget" name="outNormList">
              <item>
               <property name="text">
                <string>Sample Norm. Species</string>
@@ -739,7 +759,7 @@
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QListWidget" name="listWidget_8">
+            <widget class="QListWidget" name="outSpeciesList">
              <item>
               <property name="text">
                <string>Sample Output species</string>
@@ -761,7 +781,7 @@
          </widget>
         </item>
         <item row="0" column="0">
-         <widget class="QGroupBox" name="groupBox_3">
+         <widget class="QGroupBox" name="samplesGroup">
           <property name="font">
            <font>
             <pointsize>12</pointsize>
@@ -772,7 +792,7 @@
           </property>
           <layout class="QGridLayout" name="gridLayout_6">
            <item row="0" column="0">
-            <widget class="QListWidget" name="listWidget">
+            <widget class="QListWidget" name="samplesList">
              <property name="verticalScrollBarPolicy">
               <enum>Qt::ScrollBarAlwaysOn</enum>
              </property>
@@ -802,7 +822,7 @@
          </widget>
         </item>
         <item row="1" column="0" rowspan="2">
-         <widget class="QGroupBox" name="groupBox_5">
+         <widget class="QGroupBox" name="MDROGroup">
           <property name="font">
            <font>
             <pointsize>12</pointsize>
@@ -825,12 +845,9 @@
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineEdit">
+            <widget class="QDoubleSpinBox" name="extractAnnTempValue">
              <property name="readOnly">
               <bool>true</bool>
-             </property>
-             <property name="placeholderText">
-              <string>[Read Only]</string>
              </property>
             </widget>
            </item>
@@ -847,12 +864,9 @@
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineEdit_2">
+            <widget class="QDoubleSpinBox" name="extractSputtRateValue">
              <property name="readOnly">
               <bool>true</bool>
-             </property>
-             <property name="placeholderText">
-              <string>[Read Only]</string>
              </property>
             </widget>
            </item>
@@ -871,7 +885,7 @@
      <x>0</x>
      <y>0</y>
      <width>852</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -896,6 +910,34 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="10"/>
+ <tabstops>
+  <tabstop>TabWidget</tabstop>
+  <tabstop>sampleIDText</tabstop>
+  <tabstop>sampleDateDate</tabstop>
+  <tabstop>sampleAcqTimeTime</tabstop>
+  <tabstop>sampleDataPointsText</tabstop>
+  <tabstop>speciesListText</tabstop>
+  <tabstop>samplePriIONText</tabstop>
+  <tabstop>inputAnnTemp</tabstop>
+  <tabstop>inputGasComposition</tabstop>
+  <tabstop>inputCoolingMethod</tabstop>
+  <tabstop>matrixCompComboBox</tabstop>
+  <tabstop>sputtRateValue</tabstop>
+  <tabstop>addNotesText</tabstop>
+  <tabstop>openDFButton</tabstop>
+  <tabstop>saveDataButton</tabstop>
+  <tabstop>samplesList</tabstop>
+  <tabstop>filterSpeciesList</tabstop>
+  <tabstop>filterAnnTempList</tabstop>
+  <tabstop>filterCoolingList</tabstop>
+  <tabstop>filterMatrixCompList</tabstop>
+  <tabstop>filterGasCompList</tabstop>
+  <tabstop>extractAnnTempValue</tabstop>
+  <tabstop>extractSputtRateValue</tabstop>
+  <tabstop>outNormList</tabstop>
+  <tabstop>outSpeciesList</tabstop>
+  <tabstop>extractDataButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
  <designerdata>
