@@ -7,6 +7,11 @@ class dbUtils():
     def __init__(self):
         if not os.path.exists(DEFAULT_PATH) and not os.path.isfile(DEFAULT_PATH):
             self.createDB()
+        else:
+            self.con = self.dbConnect()
+            self.cur = self.con.cursor()
+
+        
 
     def dbConnect(self, dbPath=DEFAULT_PATH):
         return sqlite3.connect(dbPath)
@@ -14,15 +19,15 @@ class dbUtils():
     # Create SQLite3 DB here
     def createDB(self):
         print("Creating database!!!")
-        con = self.dbConnect()
-        cur = con.cursor()
+        self.con = self.dbConnect()
+        self.cur = self.con.cursor()
 
         # Create Sample Data Table
         sampleDataTable = """CREATE TABLE sampleData (
             sampleID TEXT PRIMARY KEY,
             simsData BLOB
         )"""
-        cur.execute(sampleDataTable)
+        self.cur.execute(sampleDataTable)
         
         # Create Sample Metadata Table
         sampleMDTable = """CREATE TABLE sampleMetadata (
@@ -35,31 +40,31 @@ class dbUtils():
             coolingMethod TEXT,
             annealingTemp REAL
         ) """
-        cur.execute(sampleMDTable)
+        self.cur.execute(sampleMDTable)
 
         # Create Gas Composition Table
         gasCompTable = """CREATE TABLE gasCompositions (
             gasComposition TEXT PRIMARY KEY
         )"""
-        cur.execute(gasCompTable)
+        self.cur.execute(gasCompTable)
 
         # Create Cooling Method Table
         coolingMethodTable = """CREATE TABLE coolingMethod (
             coolingMethod TEXT PRIMARY KEY
         )"""
-        cur.execute(coolingMethodTable)
+        self.cur.execute(coolingMethodTable)
 
         # Create Annealing Temperature Table
         annealingTempTable = """CREATE TABLE annealingTemp (
             temperature REAL PRIMARY KEY
         )"""
-        cur.execute(annealingTempTable)
+        self.cur.execute(annealingTempTable)
 
         # Create Species Table
         speciesTable = """CREATE TABLE species (
             specie TEXT PRIMARY KEY
         )"""
-        cur.execute(speciesTable)
+        self.cur.execute(speciesTable)
 
         # Create intermediate species table
         intSpeciesTable = """CREATE TABLE intSpecies (
@@ -67,46 +72,26 @@ class dbUtils():
             specie TEXT NOT NULL,
             FOREIGN KEY (specie) REFERENCES species(specie)
         )"""
-        cur.execute(intSpeciesTable)
+        self.cur.execute(intSpeciesTable)
 
-    try:
-        def insertSampleData(self, sampleID, simsData):
-            con = self.dbConnect()
-            cur = con.cursor()
-            cur.execute("INSERT INTO sampleData (sampleID, simsData) VALUES (?,?)", (sampleID, simsData))
-        
-        def insertSampleMetadata(self, sampleID, sputteringRate, annealingTime, additionalNotes, dataPoints , gasComposition , coolingMethod, annealingTemp):
-            con = self.dbConnect()
-            cur = con.cursor()
-            cur.execute("INSERT INTO sampleMetadata (sampleID, sputteringRate, annealingTime, additionalNotes, dataPoints , gasComposition , coolingMethod, annealingTemp) VALUES (?,?,?,?,?,?,?,?,)", (sampleID, sputteringRate, annealingTime, additionalNotes, dataPoints , gasComposition , coolingMethod, annealingTemp))
-        
-        def insertGasComp(self, gasComposition):
-            con = self.dbConnect()
-            cur = con.cursor()
-            cur.execute("INSERT INTO gasCompositions (gasComposition) VALUES (?)", (gasComposition))
+    def insertSampleData(self, sampleID, simsData):
+        self.cur.execute("INSERT INTO sampleData (sampleID, simsData) VALUES (?,?)",
+            (sampleID, simsData))
+    
+    def insertSampleMetadata(self, sampleID, sputteringRate, annealingTime, additionalNotes, dataPoints , gasComposition , coolingMethod, annealingTemp):
+        self.cur.execute("INSERT INTO sampleMetadata (sampleID, sputteringRate, annealingTime, additionalNotes, dataPoints , gasComposition , coolingMethod, annealingTemp) VALUES (?,?,?,?,?,?,?,?,)", (sampleID, sputteringRate, annealingTime, additionalNotes, dataPoints , gasComposition , coolingMethod, annealingTemp))
+    
+    def insertGasComp(self, gasComposition):
+        self.cur.execute("INSERT INTO gasCompositions (gasComposition) VALUES (?)", (gasComposition))
 
-        def insertCoolingMethod(self, coolingMethod):
-            con = self.dbConnect()
-            cur = con.cursor()
-            cur.execute("INSERT INTO coolingMethod (coolingMethod) VALUES (?)", (coolingMethod))
+    def insertCoolingMethod(self, coolingMethod):
+        self.cur.execute("INSERT INTO coolingMethod (coolingMethod) VALUES (?)", (coolingMethod))
 
-        def insertAnnealingTemp(self, temperature):
-            con = self.dbConnect()
-            cur = con.cursor()
-            cur.execute("INSERT INTO annealingTemp (temperature) VALUES (?)", (temperature))
+    def insertAnnealingTemp(self, temperature):
+        self.cur.execute("INSERT INTO annealingTemp (temperature) VALUES (?)", (temperature))
 
-        def insertSpecies(self, specie):
-            con = self.dbConnect()
-            cur = con.cursor()
-            cur.execute("INSERT INTO species (specie) VALUES (?)", (specie)) 
+    def insertSpecies(self, specie):
+        self.cur.execute("INSERT INTO species (specie) VALUES (?)", (specie)) 
 
-        def insertSpecies(self, sampleID, specie):
-            con = self.dbConnect()
-            cur = con.cursor()
-            cur.execute("INSERT INTO intSpecies (sampleID, specie) VALUES (?,?)", (sampleID, specie)) 
-    except:
-        print("Errortest")
-            
-        
-
-        
+    def insertSpecies(self, sampleID, specie):
+        self.cur.execute("INSERT INTO intSpecies (sampleID, specie) VALUES (?,?)", (sampleID, specie))
