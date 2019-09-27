@@ -68,3 +68,45 @@ class dbUtils():
             FOREIGN KEY (specie) REFERENCES species(specie)
         )"""
         cur.execute(intSpeciesTable)
+
+    try:
+        def insertSampleData(self, sampleID, simsData):
+            con = self.dbConnect()
+            cur = con.cursor()
+            cur.execute("INSERT INTO sampleData (sampleID, simsData) VALUES (?,?)", (sampleID, simsData))
+        
+        def insertSampleMetadata(self, sampleID, sputteringRate, annealingTime, additionalNotes, dataPoints , gasComposition , coolingMethod, annealingTemp):
+            con = self.dbConnect()
+            cur = con.cursor()
+            cur.execute("INSERT INTO sampleMetadata (sampleID, sputteringRate, annealingTime, additionalNotes, dataPoints , gasComposition , coolingMethod, annealingTemp) VALUES (?,?,?,?,?,?,?,?,)", (sampleID, sputteringRate, annealingTime, additionalNotes, dataPoints , gasComposition , coolingMethod, annealingTemp))
+        
+        def insertGasComp(self, gasComposition):
+            con = self.dbConnect()
+            cur = con.cursor()
+            cur.execute("INSERT INTO gasCompositions (gasComposition) VALUES (?)", (gasComposition))
+
+        def insertCoolingMethod(self, coolingMethod):
+            con = self.dbConnect()
+            cur = con.cursor()
+            cur.execute("INSERT INTO coolingMethod (coolingMethod) VALUES (?)", (coolingMethod))
+
+        def insertAnnealingTemp(self, temperature):
+            con = self.dbConnect()
+            cur = con.cursor()
+            cur.execute("INSERT INTO annealingTemp (temperature) VALUES (?)", (temperature))
+
+        def insertSpecies(self, specie):
+            con = self.dbConnect()
+            cur = con.cursor()
+            cur.execute("INSERT INTO species (specie) VALUES (?)", (specie)) 
+
+        def insertSpecies(self, sampleID, specie):
+            con = self.dbConnect()
+            cur = con.cursor()
+            cur.execute("INSERT INTO intSpecies (sampleID, specie) VALUES (?,?)", (sampleID, specie)) 
+    except:
+        print("Errortest")
+            
+        
+
+        
