@@ -9,17 +9,36 @@ from db_utils import dbUtils
 
 
 class MainUI(QtWidgets.QMainWindow):
-
     def __init__(self):
+        # Class Variables
+        self.isFileOpen = False
+
+
         super(MainUI, self).__init__()
         uic.loadUi('programFiles/MainUI.ui', self)
 
-        # Add Action for Open File in Menu Bar
-        self.openFile = self.findChild(QtWidgets.QAction, 'actionOpenFile')
-        self.openFile.triggered.connect(self.openDataFile)
+        # Add Actions to buttons and menus
 
+        # Open Menu Button
+        openFile = self.findChild(QtWidgets.QAction, 'actionOpenFile')
+        openFile.triggered.connect(self.openDataFile)
+        
+        # Exit Menu Button
+        exitApp = self.findChild(QtWidgets.QAction, 'actionExit')
+        exitApp.triggered.connect(self.closeApp)
+
+        # Save Button
+        saveDataButton = self.findChild(QtWidgets.QPushButton, 'saveDataButton')
+        saveDataButton.clicked.connect(self.saveInputData)
+
+        # Open Button
+        openFileButton = self.findChild(QtWidgets.QPushButton, 'openDFButton')
+        openFileButton.clicked.connect(self.openDataFile)
+
+        # Database class
         self.dbConn = dbUtils()
 
+        # Show App Window
         self.show()
 
     def extractSimsData(self, handle):
@@ -43,7 +62,6 @@ class MainUI(QtWidgets.QMainWindow):
             if line.rstrip():
                 name = line.split()[0]
                 names.append(name)
-                # names.extend([f'time-{name}', f'count-{name}'])
             else:
                 return names
 
@@ -54,9 +72,7 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.sampleDateDate = self.findChild(QtWidgets.QLineEdit, 'sampleDateDate')
         self.sampleDateDate.setText(self.analysisDate)
-        # self.sampleDateDate = self.findChild(QtWidgets.QDateEdit, 'sampleDateDate')
-        # self.sampleDateDate.setDate(self.analysisDate)
-        
+
         self.acqTimeTime = self.findChild(QtWidgets.QLineEdit, 'sampleAcqTimeTime')
         self.acqTimeTime.setText(self.acqTime)
 
@@ -84,6 +100,7 @@ class MainUI(QtWidgets.QMainWindow):
                 # Check if datafile is valid
                 if not dataFile.readline().startswith('*** DATA FILES ***'):
                     return
+                self.isFileOpen = True
                 # Extract data from data file
                 for line in dataFile:
                     if line.startswith('Sample ID'):
@@ -114,12 +131,28 @@ class MainUI(QtWidgets.QMainWindow):
             self.df = pd.read_csv(self.simsdata, header=None, delim_whitespace=True, skip_blank_lines=True)
             self.simsdata.close()
             self.df.columns = self.header
-            print(self.df)
 
         except FileNotFoundError:
             # A file was not chosen or wrongly selected so do nothing
             pass
 
+    # Save Data File and User Input to SQLite Database
+    def saveInputData(self):
+        # Do nothing if file has not been opened
+        if not self.isFileOpen == True:
+            return
+        
+        # self.getUIComponents()
+        # self.inputValidation()
+        
+        self.dbConn.insertSampleData(self.sampleID, None)
+
+    def closeApp(self):
+        self.dbConn.dbClose()
+        sys.exit(0)
+
+
 app = QtWidgets.QApplication(sys.argv)
 window = MainUI()
 app.exec_()
+app.aboutToQuit(window.closeApp())

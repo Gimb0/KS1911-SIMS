@@ -16,9 +16,12 @@ class dbUtils():
     def dbConnect(self, dbPath=DEFAULT_PATH):
         return sqlite3.connect(dbPath)
 
+    def dbClose(self):
+        self.cur.close()
+        self.con.close()
+
     # Create SQLite3 DB here
     def createDB(self):
-        print("Creating database!!!")
         self.con = self.dbConnect()
         self.cur = self.con.cursor()
 
@@ -74,12 +77,28 @@ class dbUtils():
         )"""
         self.cur.execute(intSpeciesTable)
 
-    def insertSampleData(self, sampleID, simsData):
-        self.cur.execute("INSERT INTO sampleData (sampleID, simsData) VALUES (?,?)",
-            (sampleID, simsData))
+    def insertSampleData(self, sampleID=None, simsData=None):
+        if sampleID == None or simsData == None:
+            return
+        self.cur.execute("""SELECT sampleID FROM sampleData WHERE sampleID = ?""", (sampleID, ))
+        data = self.cur.fetchone()
+        if data == None:
+            self.cur.execute("""INSERT INTO sampleData (sampleID, simsData) VALUES (?, ?)""", (sampleID, simsData))
+            print("Inserted sample: {}".format(sampleID))
+        else:
+            self.cur.execute("""UPDATE sampleData SET simsData = ? WHERE sampleID = ?""", (simsData, sampleID))
+            print("Updated sample: {}".format(sampleID))
+        self.con.commit()
     
-    def insertSampleMetadata(self, sampleID, sputteringRate, annealingTime, additionalNotes, dataPoints , gasComposition , coolingMethod, annealingTemp):
-        self.cur.execute("INSERT INTO sampleMetadata (sampleID, sputteringRate, annealingTime, additionalNotes, dataPoints , gasComposition , coolingMethod, annealingTemp) VALUES (?,?,?,?,?,?,?,?,)", (sampleID, sputteringRate, annealingTime, additionalNotes, dataPoints , gasComposition , coolingMethod, annealingTemp))
+    def insertSampleMetadata(self, sampleID=None, sputteringRate=None, annealingTime=None, additionalNotes=None, dataPoints=None, gasComposition=None, coolingMethod=None, annealingTemp=None):
+        if sampleID == None:
+            return
+        self.cur.execute("""SELECT sampleID FROM sampleMetadata WHERE sampleID = ?""", (sampleID, ))
+        data = self.cur.fetchone()
+        if data == None:
+            self.cur.execute("INSERT INTO sampleMetadata (sampleID, sputteringRate, annealingTime, additionalNotes, dataPoints, gasComposition , coolingMethod, annealingTemp) VALUES (?,?,?,?,?,?,?,?,)", (sampleID, sputteringRate, annealingTime, additionalNotes, dataPoints , gasComposition , coolingMethod, annealingTemp))
+        else:
+            self.cur.execute("""UPDATE sampleMetadata SET sputteringRate = ?, annealingTime = ?, additionalNotes = ?, dataPoints = ?, gasComposition = ?, coolingMethod = ?, annealingTemp = ? WHERE sampleID = ?""", (sputteringRate, annealingTime, additionalNotes, dataPoints , gasComposition , coolingMethod, annealingTemp, sampleID))
     
     def insertGasComp(self, gasComposition):
         self.cur.execute("INSERT INTO gasCompositions (gasComposition) VALUES (?)", (gasComposition))
