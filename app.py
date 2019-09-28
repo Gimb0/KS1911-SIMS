@@ -65,7 +65,7 @@ class MainUI(QtWidgets.QMainWindow):
             else:
                 return names
 
-    def updateInterface(self):
+    def updateInputInterface(self):
         # try:
         self.sampleIDText = self.findChild(QtWidgets.QLineEdit, 'sampleIDText')
         self.sampleIDText.setText(self.sampleID)
@@ -89,9 +89,67 @@ class MainUI(QtWidgets.QMainWindow):
         self.dataPointsText.setText(str(self.dataPoints))
         # except:
         #     pass
-    
-    # def getUIComponents(self):
 
+    def initializeExtractInterface(self):
+        # Samples List
+        self.samplesList = self.findChild(QtWidgets.QListWidget, 'samplesList')
+        self.samplesList.clear()
+        for sample in self.dbConn.getSamples():
+                self.samplesList.addItem(sample[0])
+
+        # Filter Species List
+        self.filterSpeciesList = self.findChild(QtWidgets.QListWidget, 'filterSpeciesList')
+        self.filterSpeciesList.clear()
+        for specie in self.dbConn.getSpecies():
+            print(specie[0])
+            self.filterSpeciesList.addItem(specie[0])
+
+        # Filter Annealing Temps List
+        self.filterAnnTempsList = self.findChild(QtWidgets.QListWidget, 'filterAnnTempList')
+        self.filterAnnTempsList.clear()
+        for temp in self.dbConn.getAnnealingTemp():
+            self.filterAnnTempsList.addItem(str(temp[0]))
+
+        # Filter Cooling Method List
+        self.filterCoolingMethodList = self.findChild(QtWidgets.QListWidget, 'filterCoolingList')
+        self.filterCoolingMethodList.clear()
+        for method in self.dbConn.getCoolingMethod():
+            self.filterCoolingMethodList.addItem(method[0])
+        
+        # Filter Gas Composition List
+        self.filterGasCompList = self.findChild(QtWidgets.QListWidget, 'filterGasCompList')
+        self.filterGasCompList.clear()
+        for gas in self.dbConn.getGasComposition():
+            self.filterGasCompList.addItem(gas[0])
+
+        # Filter Matrix Composition List
+        self.filterMatrixCompList = self.findChild(QtWidgets.QListWidget, 'filterMatrixCompList')
+        self.filterMatrixCompList.clear()
+        for matrix in self.dbConn.getMatrixComposition():
+            self.filterMatrixCompList.addItem(matrix[0]) 
+
+    
+    def getUIComponents(self):
+        # Annealing Temperature
+        self.annTemp = self.findChild(QtWidgets.QDoubleSpinBox, 'inputAnnTemp')
+
+        # Annealing Time
+        self.annTime = self.findChild(QtWidgets.QDoubleSpinBox, 'inputAnnTime')
+
+        # Gas Composition
+        self.gasComp = self.findChild(QtWidgets.QComboBox, 'inputGasComposition')
+
+        # Cooling Method
+        self.coolingMethod = self.findChild(QtWidgets.QComboBox, 'inputCoolingMethod')
+
+        # Matrix Composition
+        self.matrixComp = self.findChild(QtWidgets.QComboBox, 'matrixCompComboBox')
+
+        # Sputtering Rate
+        self.sputtRate = self.findChild(QtWidgets.QDoubleSpinBox, 'sputtRateValue')
+
+        # Additional Notes
+        self.addNotes = self.findChild(QtWidgets.QTextEdit, 'addNotesText')
 
     def openDataFile(self):
         try:
@@ -125,7 +183,7 @@ class MainUI(QtWidgets.QMainWindow):
                     if line.startswith("Impact energy"):
                         self.pIonsEnergy = line.split()[-1]
                         
-            self.updateInterface()
+            self.updateInputInterface()
             
             # Create pandas data frame
             self.df = pd.read_csv(self.simsdata, header=None, delim_whitespace=True, skip_blank_lines=True)
@@ -133,19 +191,42 @@ class MainUI(QtWidgets.QMainWindow):
             self.df.columns = self.header
 
         except FileNotFoundError:
-            # A file was not chosen or wrongly selected so do nothing
+            # A file was not chosen or it was wrongly selected so do nothing
             pass
 
     # Save Data File and User Input to SQLite Database
     def saveInputData(self):
+        msg = ""
+        # try:
         # Do nothing if file has not been opened
-        if not self.isFileOpen == True:
+        if self.isFileOpen is not True:
             return
         
-        # self.getUIComponents()
+        self.getUIComponents()
         # self.inputValidation()
         
-        self.dbConn.insertSampleData(self.sampleID, None)
+        self.dbConn.insertSampleData(self.sampleID, self.df)
+        self.dbConn.insertSampleMetadata(self.sampleID, self.annTemp.value(), self.annTime.value(), self.gasComp.currentText(), self.coolingMethod.currentText(), self.matrixComp.currentText(), self.sputtRate.value(), self.addNotes.toPlainText(), self.dataPoints)
+        self.dbConn.insertAnnealingTemp(self.annTemp.value())
+        self.dbConn.insertCoolingMethod(self.coolingMethod.currentText())
+        self.dbConn.insertGasComp(self.gasComp.currentText())
+
+        species = self.speciesListString.split()
+        for specie in species:
+            specie = specie.strip(',')
+            self.dbConn.insertSpecies(specie)
+            self.dbConn.insertIntSpecies(self.sampleID, specie)
+
+        self.dbConn.dbCommit()
+        msg = "Successfully saved data to database"
+        # except Exception as e:
+        # msg = e
+        # finally:
+            # Eventually replace this with a popup dialog
+        print(msg)
+        self.initializeExtractInterface()
+
+
 
     def closeApp(self):
         self.dbConn.dbClose()

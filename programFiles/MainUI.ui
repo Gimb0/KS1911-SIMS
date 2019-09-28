@@ -244,7 +244,11 @@
                </widget>
               </item>
               <item row="3" column="2">
-               <widget class="QSpinBox" name="samplePriIONEValue"/>
+               <widget class="QSpinBox" name="samplePriIONEValue">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
@@ -432,7 +436,11 @@
                </widget>
               </item>
               <item row="2" column="1">
-               <widget class="QComboBox" name="inputGasComposition"/>
+               <widget class="QComboBox" name="inputGasComposition">
+                <property name="editable">
+                 <bool>true</bool>
+                </property>
+               </widget>
               </item>
               <item row="1" column="0">
                <widget class="QLabel" name="label_6">
@@ -586,31 +594,6 @@
              <property name="selectionMode">
               <enum>QAbstractItemView::MultiSelection</enum>
              </property>
-             <item>
-              <property name="text">
-               <string>Sample Species</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>52Cr</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>16O</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>48Ti</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>197Au</string>
-              </property>
-             </item>
             </widget>
            </item>
            <item row="1" column="1">
@@ -796,26 +779,6 @@
              <property name="verticalScrollBarPolicy">
               <enum>Qt::ScrollBarAlwaysOn</enum>
              </property>
-             <item>
-              <property name="text">
-               <string>Sample Samples</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>List of every sample stored in databse</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Sample 1</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Sample 2</string>
-              </property>
-             </item>
             </widget>
            </item>
           </layout>

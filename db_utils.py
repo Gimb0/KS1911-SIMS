@@ -11,14 +11,15 @@ class dbUtils():
             self.con = self.dbConnect()
             self.cur = self.con.cursor()
 
-        
-
     def dbConnect(self, dbPath=DEFAULT_PATH):
         return sqlite3.connect(dbPath)
 
     def dbClose(self):
         self.cur.close()
         self.con.close()
+
+    def dbCommit(self):
+        self.con.commit()
 
     # Create SQLite3 DB here
     def createDB(self):
@@ -35,25 +36,31 @@ class dbUtils():
         # Create Sample Metadata Table
         sampleMDTable = """CREATE TABLE sampleMetadata (
             sampleID TEXT PRIMARY KEY,
-            sputteringRate REAL,
+            annealingTemp REAL,
             annealingTime REAL,
-            additionalNotes TEXT,
-            dataPoints INTEGER,
             gasComposition TEXT,
             coolingMethod TEXT,
-            annealingTemp REAL
+            matrixComposition TEXT,
+            sputteringRate REAL,
+            additionalNotes TEXT,
+            dataPoints INTEGER
         ) """
         self.cur.execute(sampleMDTable)
 
+        matrixCompTable = """CREATE TABLE matrixCompositions (
+            matrix TEXT PRIMARY KEY
+        )"""
+        self.cur.execute(matrixCompTable)
+
         # Create Gas Composition Table
         gasCompTable = """CREATE TABLE gasCompositions (
-            gasComposition TEXT PRIMARY KEY
+            gas TEXT PRIMARY KEY
         )"""
         self.cur.execute(gasCompTable)
 
         # Create Cooling Method Table
         coolingMethodTable = """CREATE TABLE coolingMethod (
-            coolingMethod TEXT PRIMARY KEY
+            method TEXT PRIMARY KEY
         )"""
         self.cur.execute(coolingMethodTable)
 
@@ -71,46 +78,105 @@ class dbUtils():
 
         # Create intermediate species table
         intSpeciesTable = """CREATE TABLE intSpecies (
-            sampleID TEXT PRIMARY KEY,
+            sampleID TEXT,
             specie TEXT NOT NULL,
             FOREIGN KEY (specie) REFERENCES species(specie)
         )"""
         self.cur.execute(intSpeciesTable)
 
+    # Insert to or Update the sampleData Table
     def insertSampleData(self, sampleID=None, simsData=None):
-        if sampleID == None or simsData == None:
+        # Sample ID and Raw data cannot be None
+        if sampleID == None or simsData.empty is True:
             return
+        
+        # Check if row exists with current sampleID
         self.cur.execute("""SELECT sampleID FROM sampleData WHERE sampleID = ?""", (sampleID, ))
         data = self.cur.fetchone()
+
+        # Insert if doesn't exist
         if data == None:
-            self.cur.execute("""INSERT INTO sampleData (sampleID, simsData) VALUES (?, ?)""", (sampleID, simsData))
-            print("Inserted sample: {}".format(sampleID))
+            self.cur.execute("""INSERT INTO sampleData (sampleID, simsData) VALUES (?, ?)""", (sampleID, simsData.to_string()))
+        # Update row if does exist
         else:
-            self.cur.execute("""UPDATE sampleData SET simsData = ? WHERE sampleID = ?""", (simsData, sampleID))
-            print("Updated sample: {}".format(sampleID))
-        self.con.commit()
+            self.cur.execute("""UPDATE sampleData SET simsData = ? WHERE sampleID = ?""", (simsData.to_string(), sampleID))
     
-    def insertSampleMetadata(self, sampleID=None, sputteringRate=None, annealingTime=None, additionalNotes=None, dataPoints=None, gasComposition=None, coolingMethod=None, annealingTemp=None):
+    # Insert to or Update the sampleMetadata Table
+    def insertSampleMetadata(self, sampleID=None, annealingTemp=None, annealingTime=None, gasComposition=None, coolingMethod=None,  matrixComposition=None, sputteringRate=None, additionalNotes=None, dataPoints=None):
+        # Sample ID must not be None, everything else can be
         if sampleID == None:
             return
+
+        # Check if row exists with current sampleID
         self.cur.execute("""SELECT sampleID FROM sampleMetadata WHERE sampleID = ?""", (sampleID, ))
         data = self.cur.fetchone()
+        # Insert row if doesn't exist
         if data == None:
-            self.cur.execute("INSERT INTO sampleMetadata (sampleID, sputteringRate, annealingTime, additionalNotes, dataPoints, gasComposition , coolingMethod, annealingTemp) VALUES (?,?,?,?,?,?,?,?,)", (sampleID, sputteringRate, annealingTime, additionalNotes, dataPoints , gasComposition , coolingMethod, annealingTemp))
+            self.cur.execute("INSERT INTO sampleMetadata (sampleID, annealingTemp, annealingTime, gasComposition, coolingMethod, matrixComposition, sputteringRate, additionalNotes, dataPoints  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", (sampleID, annealingTemp, annealingTime, gasComposition, coolingMethod, matrixComposition, sputteringRate, additionalNotes, dataPoints))
+        # Update row if does exist
         else:
-            self.cur.execute("""UPDATE sampleMetadata SET sputteringRate = ?, annealingTime = ?, additionalNotes = ?, dataPoints = ?, gasComposition = ?, coolingMethod = ?, annealingTemp = ? WHERE sampleID = ?""", (sputteringRate, annealingTime, additionalNotes, dataPoints , gasComposition , coolingMethod, annealingTemp, sampleID))
+            self.cur.execute("""UPDATE sampleMetadata SET annealingTemp = ?, annealingTime = ?, gasComposition = ?, coolingMethod = ?, matrixComposition = ?, sputteringRate = ?, additionalNotes = ?, dataPoints = ? WHERE sampleID = ?""", (annealingTemp, annealingTime, gasComposition, coolingMethod, matrixComposition, sputteringRate, additionalNotes, dataPoints, sampleID))
     
     def insertGasComp(self, gasComposition):
-        self.cur.execute("INSERT INTO gasCompositions (gasComposition) VALUES (?)", (gasComposition))
+        if gasComposition is None:
+            return
+        self.cur.execute("""SELECT gas FROM gasCompositions WHERE gas = ?""", (gasComposition))
+        data = self.cur.fetchone()
+        if data is None:
+            self.cur.execute("INSERT INTO gasCompositions (gas) VALUES (?)", (gasComposition))
 
     def insertCoolingMethod(self, coolingMethod):
-        self.cur.execute("INSERT INTO coolingMethod (coolingMethod) VALUES (?)", (coolingMethod))
+        if coolingMethod is None:
+            return
+        self.cur.execute("""SELECT method FROM coolingMethod WHERE method = ?""", (coolingMethod))
+        data = self.cur.fetchone()
+        if data is None:
+            self.cur.execute("INSERT INTO coolingMethod (method) VALUES (?)", (coolingMethod))
 
     def insertAnnealingTemp(self, temperature):
-        self.cur.execute("INSERT INTO annealingTemp (temperature) VALUES (?)", (temperature))
+        if temperature is None:
+            return
+        self.cur.execute("""SELECT * FROM annealingTemp WHERE temperature = ?""", (temperature, ))
+        data = self.cur.fetchone()
+        if data is None:
+            self.cur.execute("INSERT INTO annealingTemp (temperature) VALUES (?)", (temperature, ))
 
     def insertSpecies(self, specie):
-        self.cur.execute("INSERT INTO species (specie) VALUES (?)", (specie)) 
+        if specie is None:
+            return
+        self.cur.execute("""SELECT * FROM species WHERE specie = ?""", (specie, ))
+        data = self.cur.fetchone()
+        if data is None:
+            self.cur.execute("INSERT INTO species (specie) VALUES (?)", (specie, )) 
 
-    def insertSpecies(self, sampleID, specie):
-        self.cur.execute("INSERT INTO intSpecies (sampleID, specie) VALUES (?,?)", (sampleID, specie))
+    def insertIntSpecies(self, sampleID, specie):
+        if sampleID is None or specie is None:
+            return
+        self.cur.execute("""SELECT * FROM intSpecies WHERE sampleID = ? AND specie = ?""", (sampleID, specie))
+        data = self.cur.fetchone()
+        if data is None:
+            self.cur.execute("INSERT INTO intSpecies (sampleID, specie) VALUES (?,?)", (sampleID, specie))
+
+    def getSamples(self):
+        self.cur.execute("""SELECT sampleID FROM sampleData""")
+        return self.cur.fetchall()
+
+    def getSpecies(self):
+        self.cur.execute("""SELECT specie from species""")
+        return self.cur.fetchall()
+
+    def getAnnealingTemp(self):
+        self.cur.execute("""SELECT temperature FROM annealingTemp""")
+        return self.cur.fetchall()
+
+    def getCoolingMethod(self):
+        self.cur.execute("""SELECT method FROM coolingMethod""")
+        return self.cur.fetchall()
+
+    def getGasComposition(self):
+        self.cur.execute("""SELECT gas FROM gasCompositions""")
+        return self.cur.fetchall()
+    
+    def getMatrixComposition(self):
+        self.cur.execute("""SELECT matrix FROM matrixCompositions""")
+        return self.cur.fetchall()
