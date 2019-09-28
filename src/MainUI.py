@@ -1,12 +1,10 @@
-#!/usr/bin/env python3
-
 import sys
 from PyQt5 import QtWidgets, uic
 import io
 import pandas as pd;
 from datetime import timedelta, time
 from db_utils import dbUtils
-
+from DialogUI import MsgDialog
 
 class MainUI(QtWidgets.QMainWindow):
     def __init__(self):
@@ -15,7 +13,7 @@ class MainUI(QtWidgets.QMainWindow):
 
 
         super(MainUI, self).__init__()
-        uic.loadUi('programFiles/MainUI.ui', self)
+        uic.loadUi('../uiFiles/MainUI.ui', self)
 
         # Add Actions to buttons and menus
 
@@ -37,6 +35,8 @@ class MainUI(QtWidgets.QMainWindow):
 
         # Database class
         self.dbConn = dbUtils()
+
+        self.initializeExtractInterface()
 
         # Show App Window
         self.show()
@@ -64,6 +64,28 @@ class MainUI(QtWidgets.QMainWindow):
                 names.append(name)
             else:
                 return names
+
+    def getUIComponents(self):
+        # Annealing Temperature
+        self.annTemp = self.findChild(QtWidgets.QDoubleSpinBox, 'inputAnnTemp')
+
+        # Annealing Time
+        self.annTime = self.findChild(QtWidgets.QDoubleSpinBox, 'inputAnnTime')
+
+        # Gas Composition
+        self.gasComp = self.findChild(QtWidgets.QComboBox, 'inputGasComposition')
+
+        # Cooling Method
+        self.coolingMethod = self.findChild(QtWidgets.QComboBox, 'inputCoolingMethod')
+
+        # Matrix Composition
+        self.matrixComp = self.findChild(QtWidgets.QComboBox, 'matrixCompComboBox')
+
+        # Sputtering Rate
+        self.sputtRate = self.findChild(QtWidgets.QDoubleSpinBox, 'sputtRateValue')
+
+        # Additional Notes
+        self.addNotes = self.findChild(QtWidgets.QTextEdit, 'addNotesText')
 
     def updateInputInterface(self):
         # try:
@@ -93,6 +115,7 @@ class MainUI(QtWidgets.QMainWindow):
     def initializeExtractInterface(self):
         # Samples List
         self.samplesList = self.findChild(QtWidgets.QListWidget, 'samplesList')
+        self.samplesList.clicked.connect(self.sampleSelected)
         self.samplesList.clear()
         for sample in self.dbConn.getSamples():
                 self.samplesList.addItem(sample[0])
@@ -101,55 +124,57 @@ class MainUI(QtWidgets.QMainWindow):
         self.filterSpeciesList = self.findChild(QtWidgets.QListWidget, 'filterSpeciesList')
         self.filterSpeciesList.clear()
         for specie in self.dbConn.getSpecies():
-            print(specie[0])
+            if specie[0] == "":
+                pass
             self.filterSpeciesList.addItem(specie[0])
 
         # Filter Annealing Temps List
         self.filterAnnTempsList = self.findChild(QtWidgets.QListWidget, 'filterAnnTempList')
         self.filterAnnTempsList.clear()
-        for temp in self.dbConn.getAnnealingTemp():
+        for temp in self.dbConn.getAnnealingTemps():
+            if temp[0] == "":
+                pass
             self.filterAnnTempsList.addItem(str(temp[0]))
 
         # Filter Cooling Method List
         self.filterCoolingMethodList = self.findChild(QtWidgets.QListWidget, 'filterCoolingList')
         self.filterCoolingMethodList.clear()
         for method in self.dbConn.getCoolingMethod():
+            if method[0] == "":
+                pass
             self.filterCoolingMethodList.addItem(method[0])
         
         # Filter Gas Composition List
         self.filterGasCompList = self.findChild(QtWidgets.QListWidget, 'filterGasCompList')
         self.filterGasCompList.clear()
         for gas in self.dbConn.getGasComposition():
+            if gas[0] == "":
+                pass
             self.filterGasCompList.addItem(gas[0])
 
         # Filter Matrix Composition List
         self.filterMatrixCompList = self.findChild(QtWidgets.QListWidget, 'filterMatrixCompList')
         self.filterMatrixCompList.clear()
         for matrix in self.dbConn.getMatrixComposition():
+            if matrix[0] == "":
+                pass
             self.filterMatrixCompList.addItem(matrix[0]) 
-
     
-    def getUIComponents(self):
-        # Annealing Temperature
-        self.annTemp = self.findChild(QtWidgets.QDoubleSpinBox, 'inputAnnTemp')
+    def sampleSelected(self):
+        sampleID = self.samplesList.currentItem().text()
+        annTime = self.findChild(QtWidgets.QDoubleSpinBox, 'extractAnnTimeValue')
+        annTime.setValue(self.dbConn.getAnnealingTime(sampleID)[0])
 
-        # Annealing Time
-        self.annTime = self.findChild(QtWidgets.QDoubleSpinBox, 'inputAnnTime')
+        sputtRate = self.findChild(QtWidgets.QDoubleSpinBox, 'extractSputtRateValue')
+        sputtRate.setValue(self.dbConn.getSputteringRate(sampleID)[0])
 
-        # Gas Composition
-        self.gasComp = self.findChild(QtWidgets.QComboBox, 'inputGasComposition')
-
-        # Cooling Method
-        self.coolingMethod = self.findChild(QtWidgets.QComboBox, 'inputCoolingMethod')
-
-        # Matrix Composition
-        self.matrixComp = self.findChild(QtWidgets.QComboBox, 'matrixCompComboBox')
-
-        # Sputtering Rate
-        self.sputtRate = self.findChild(QtWidgets.QDoubleSpinBox, 'sputtRateValue')
-
-        # Additional Notes
-        self.addNotes = self.findChild(QtWidgets.QTextEdit, 'addNotesText')
+        normList = self.findChild(QtWidgets.QListWidget, 'outNormList')
+        normList.clear()
+        specieList = self.findChild(QtWidgets.QListWidget, 'outSpeciesList')
+        specieList.clear()
+        for specie in self.dbConn.getSampleSpecies(sampleID):
+            normList.addItem(specie[0])
+            specieList.addItem(specie[0])
 
     def openDataFile(self):
         try:
@@ -210,6 +235,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.dbConn.insertAnnealingTemp(self.annTemp.value())
         self.dbConn.insertCoolingMethod(self.coolingMethod.currentText())
         self.dbConn.insertGasComp(self.gasComp.currentText())
+        self.dbConn.insertMatrixComp(self.matrixComp.currentText())
 
         species = self.speciesListString.split()
         for specie in species:
@@ -218,22 +244,15 @@ class MainUI(QtWidgets.QMainWindow):
             self.dbConn.insertIntSpecies(self.sampleID, specie)
 
         self.dbConn.dbCommit()
-        msg = "Successfully saved data to database"
+        msg = MsgDialog()
+        msg.setMsg("Successfully saved data to database")
         # except Exception as e:
         # msg = e
         # finally:
             # Eventually replace this with a popup dialog
-        print(msg)
+
         self.initializeExtractInterface()
-
-
 
     def closeApp(self):
         self.dbConn.dbClose()
         sys.exit(0)
-
-
-app = QtWidgets.QApplication(sys.argv)
-window = MainUI()
-app.exec_()
-app.aboutToQuit(window.closeApp())

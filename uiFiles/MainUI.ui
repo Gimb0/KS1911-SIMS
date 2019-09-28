@@ -27,7 +27,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="InputTab">
        <attribute name="title">
@@ -808,7 +808,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QDoubleSpinBox" name="extractAnnTempValue">
+            <widget class="QDoubleSpinBox" name="extractAnnTimeValue">
              <property name="readOnly">
               <bool>true</bool>
              </property>
@@ -895,7 +895,7 @@
   <tabstop>filterCoolingList</tabstop>
   <tabstop>filterMatrixCompList</tabstop>
   <tabstop>filterGasCompList</tabstop>
-  <tabstop>extractAnnTempValue</tabstop>
+  <tabstop>extractAnnTimeValue</tabstop>
   <tabstop>extractSputtRateValue</tabstop>
   <tabstop>outNormList</tabstop>
   <tabstop>outSpeciesList</tabstop>

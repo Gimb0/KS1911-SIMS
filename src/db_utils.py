@@ -120,18 +120,18 @@ class dbUtils():
     def insertGasComp(self, gasComposition):
         if gasComposition is None:
             return
-        self.cur.execute("""SELECT gas FROM gasCompositions WHERE gas = ?""", (gasComposition))
+        self.cur.execute("""SELECT gas FROM gasCompositions WHERE gas = ?""", (gasComposition, ))
         data = self.cur.fetchone()
         if data is None:
-            self.cur.execute("INSERT INTO gasCompositions (gas) VALUES (?)", (gasComposition))
+            self.cur.execute("INSERT INTO gasCompositions (gas) VALUES (?)", (gasComposition, ))
 
     def insertCoolingMethod(self, coolingMethod):
         if coolingMethod is None:
             return
-        self.cur.execute("""SELECT method FROM coolingMethod WHERE method = ?""", (coolingMethod))
+        self.cur.execute("""SELECT method FROM coolingMethod WHERE method = ?""", (coolingMethod, ))
         data = self.cur.fetchone()
         if data is None:
-            self.cur.execute("INSERT INTO coolingMethod (method) VALUES (?)", (coolingMethod))
+            self.cur.execute("INSERT INTO coolingMethod (method) VALUES (?)", (coolingMethod, ))
 
     def insertAnnealingTemp(self, temperature):
         if temperature is None:
@@ -140,6 +140,14 @@ class dbUtils():
         data = self.cur.fetchone()
         if data is None:
             self.cur.execute("INSERT INTO annealingTemp (temperature) VALUES (?)", (temperature, ))
+
+    def insertMatrixComp(self, matrix):
+        if matrix is None:
+            return
+        self.cur.execute("""SELECT * FROM matrixCompositions WHERE matrix = ?""", (matrix, ))
+        data = self.cur.fetchone()
+        if data is None:
+            self.cur.execute("""INSERT INTO matrixCompositions (matrix) VALUES (?)""", (matrix, ))
 
     def insertSpecies(self, specie):
         if specie is None:
@@ -165,9 +173,13 @@ class dbUtils():
         self.cur.execute("""SELECT specie from species""")
         return self.cur.fetchall()
 
-    def getAnnealingTemp(self):
+    def getAnnealingTemps(self):
         self.cur.execute("""SELECT temperature FROM annealingTemp""")
         return self.cur.fetchall()
+
+    def getAnnealingTime(self, sampleID):
+        self.cur.execute("""SELECT annealingTime FROM sampleMetadata WHERE sampleID = ?""", (sampleID, ))
+        return self.cur.fetchone()
 
     def getCoolingMethod(self):
         self.cur.execute("""SELECT method FROM coolingMethod""")
@@ -179,4 +191,12 @@ class dbUtils():
     
     def getMatrixComposition(self):
         self.cur.execute("""SELECT matrix FROM matrixCompositions""")
+        return self.cur.fetchall()
+
+    def getSputteringRate(self, sampleID):
+        self.cur.execute("""SELECT sputteringRate FROM sampleMetadata WHERE sampleID = ?""", (sampleID, ))
+        return self.cur.fetchone()
+
+    def getSampleSpecies(self, sampleID):
+        self.cur.execute("""SELECT specie FROM intSpecies WHERE sampleID = ?""", (sampleID, ))
         return self.cur.fetchall()
