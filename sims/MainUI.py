@@ -1,6 +1,6 @@
 import sys
 from PyQt5 import QtWidgets, uic
-import io
+from io import StringIO
 import pandas as pd;
 from datetime import timedelta, time
 from db_utils import dbUtils
@@ -33,6 +33,10 @@ class MainUI(QtWidgets.QMainWindow):
         openFileButton = self.findChild(QtWidgets.QPushButton, 'openDFButton')
         openFileButton.clicked.connect(self.openDataFile)
 
+        # Extract Data Button
+        extractDataButton = self.findChild(QtWidgets.QPushButton, 'extractDataButton')
+        extractDataButton.clicked.connect(self.extractData)
+
         # Database class
         self.dbConn = dbUtils()
 
@@ -42,13 +46,12 @@ class MainUI(QtWidgets.QMainWindow):
         self.show()
 
     def extractSimsData(self, handle):
-        databuf = io.StringIO()
+        databuf = StringIO()
         self.dataPoints = 0
         for _ in range(4):
             next(handle)
         for line in handle:
             if line.startswith('*** DATA END ***') or not line.strip():
-                databuf.seek(io.SEEK_SET)
                 return databuf
             databuf.write(line)
             self.dataPoints += 1
@@ -168,13 +171,13 @@ class MainUI(QtWidgets.QMainWindow):
         sputtRate = self.findChild(QtWidgets.QDoubleSpinBox, 'extractSputtRateValue')
         sputtRate.setValue(self.dbConn.getSputteringRate(sampleID)[0])
 
-        normList = self.findChild(QtWidgets.QListWidget, 'outNormList')
-        normList.clear()
-        specieList = self.findChild(QtWidgets.QListWidget, 'outSpeciesList')
-        specieList.clear()
+        self.normList = self.findChild(QtWidgets.QListWidget, 'outNormList')
+        self.normList.clear()
+        self.specieList = self.findChild(QtWidgets.QListWidget, 'outSpeciesList')
+        self.specieList.clear()
         for specie in self.dbConn.getSampleSpecies(sampleID):
-            normList.addItem(specie[0])
-            specieList.addItem(specie[0])
+            self.normList.addItem(specie[0])
+            self.specieList.addItem(specie[0])
 
     def openDataFile(self):
         try:
@@ -221,37 +224,66 @@ class MainUI(QtWidgets.QMainWindow):
 
     # Save Data File and User Input to SQLite Database
     def saveInputData(self):
-        msg = ""
-        # try:
+        msg = "Successfully saved data to database"
+        try:
         # Do nothing if file has not been opened
-        if self.isFileOpen is not True:
-            return
+            if self.isFileOpen is not True:
+                return
+            
+            self.getUIComponents()
+            # self.inputValidation() # Waiting on Shane
+            
+            # Pass necessary data to insert functions
+            self.dbConn.insertSampleData(self.sampleID, self.df)
+            self.dbConn.insertSampleMetadata(self.sampleID, self.annTemp.value(), self.annTime.value(), self.gasComp.currentText(), self.coolingMethod.currentText(), self.matrixComp.currentText(), self.sputtRate.value(), self.addNotes.toPlainText(), self.dataPoints)
+            self.dbConn.insertAnnealingTemp(self.annTemp.value())
+            self.dbConn.insertCoolingMethod(self.coolingMethod.currentText())
+            self.dbConn.insertGasComp(self.gasComp.currentText())
+            self.dbConn.insertMatrixComp(self.matrixComp.currentText())
+
+            species = self.speciesListString.split()
+            for specie in species:
+                specie = specie.strip(',')
+                self.dbConn.insertSpecies(specie)
+                self.dbConn.insertIntSpecies(self.sampleID, specie)
+
+            # Commit changes to database
+            self.dbConn.dbCommit()
         
-        self.getUIComponents()
-        # self.inputValidation()
-        
-        self.dbConn.insertSampleData(self.sampleID, self.df)
-        self.dbConn.insertSampleMetadata(self.sampleID, self.annTemp.value(), self.annTime.value(), self.gasComp.currentText(), self.coolingMethod.currentText(), self.matrixComp.currentText(), self.sputtRate.value(), self.addNotes.toPlainText(), self.dataPoints)
-        self.dbConn.insertAnnealingTemp(self.annTemp.value())
-        self.dbConn.insertCoolingMethod(self.coolingMethod.currentText())
-        self.dbConn.insertGasComp(self.gasComp.currentText())
-        self.dbConn.insertMatrixComp(self.matrixComp.currentText())
-
-        species = self.speciesListString.split()
-        for specie in species:
-            specie = specie.strip(',')
-            self.dbConn.insertSpecies(specie)
-            self.dbConn.insertIntSpecies(self.sampleID, specie)
-
-        self.dbConn.dbCommit()
-        msg = MsgDialog()
-        msg.setMsg("Successfully saved data to database")
-        # except Exception as e:
-        # msg = e
-        # finally:
-            # Eventually replace this with a popup dialog
-
+        except Exception as e:
+            msg = e
+        finally:    
+            self.createPopupMessage(msg)
         self.initializeExtractInterface()
+
+    def createPopupMessage(self, title="Title", msg="Message"):
+        QtWidgets.QMessageBox.about(self, title, msg)
+
+    def extractData(self):
+        # Check if necessary items have been selected
+        if len(self.samplesList.selectedItems()) == 0:
+            self.createPopupMessage("Error", "Select a sample to extract data from")
+            return
+        elif len(self.normList.selectedItems()) == 0 or len(self.normList.selectedItems()) > 2:
+            self.createPopupMessage("Error", "Select 1 or 2 normalisation species")
+            return
+        elif len(self.specieList.selectedItems()) == 0:
+            self.createPopupMessage("Error", "Select species to output")
+            return
+
+        # Get data to extract
+        species = []
+        sampleID = self.samplesList.currentItem().text()
+        simsData = StringIO(self.dbConn.getSimsData(sampleID)[0])
+        simsDF = pd.read_csv(simsData)
+        for specie in self.specieList.selectedItems():
+            species.append(specie.text())
+
+        # Extract selected species
+        numOfColumns = len(simsDF.columns[0].split())
+        for index, row in simsDF.iterrows():
+            print(row)
+            return
 
     def closeApp(self):
         self.dbConn.dbClose()

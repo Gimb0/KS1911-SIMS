@@ -200,3 +200,7 @@ class dbUtils():
     def getSampleSpecies(self, sampleID):
         self.cur.execute("""SELECT specie FROM intSpecies WHERE sampleID = ?""", (sampleID, ))
         return self.cur.fetchall()
+
+    def getSimsData(self, sampleID):
+        self.cur.execute("""SELECT simsData FROM sampleData WHERE sampleID = ?""", (sampleID, ))
+        return self.cur.fetchone()
