@@ -83,9 +83,6 @@
                 <property name="readOnly">
                  <bool>true</bool>
                 </property>
-                <property name="placeholderText">
-                 <string>[Read Only]</string>
-                </property>
                 <property name="clearButtonEnabled">
                  <bool>false</bool>
                 </property>
@@ -158,9 +155,6 @@
                 <property name="readOnly">
                  <bool>true</bool>
                 </property>
-                <property name="placeholderText">
-                 <string>[Read Only]</string>
-                </property>
                </widget>
               </item>
              </layout>
@@ -210,9 +204,6 @@
                 <property name="readOnly">
                  <bool>true</bool>
                 </property>
-                <property name="placeholderText">
-                 <string>[Read Only]</string>
-                </property>
                </widget>
               </item>
               <item row="0" column="0">
@@ -237,9 +228,6 @@
                 </property>
                 <property name="readOnly">
                  <bool>true</bool>
-                </property>
-                <property name="placeholderText">
-                 <string>[Read Only]</string>
                 </property>
                </widget>
               </item>
@@ -339,16 +327,6 @@
                 <property name="editable">
                  <bool>true</bool>
                 </property>
-                <item>
-                 <property name="text">
-                  <string>In203</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>TiO2</string>
-                 </property>
-                </item>
                </widget>
               </item>
               <item row="1" column="0">
@@ -404,11 +382,6 @@
                 <property name="editable">
                  <bool>true</bool>
                 </property>
-                <item>
-                 <property name="text">
-                  <string>Quenching</string>
-                 </property>
-                </item>
                </widget>
               </item>
               <item row="4" column="0">
