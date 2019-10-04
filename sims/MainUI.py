@@ -1,6 +1,6 @@
 import sys
 from PyQt5 import QtWidgets, uic
-from io import StringIO, SEEK_SET
+from io import BytesIO, StringIO, SEEK_SET
 import pandas as pd;
 from datetime import timedelta, time
 from db_utils import dbUtils
@@ -10,7 +10,6 @@ class MainUI(QtWidgets.QMainWindow):
     def __init__(self):
         # Class Variables
         self.isFileOpen = False
-
 
         super(MainUI, self).__init__()
         uic.loadUi('../uiFiles/MainUI.ui', self)
@@ -73,26 +72,67 @@ class MainUI(QtWidgets.QMainWindow):
                 return names
 
     def getUIComponents(self):
+        # Input Components
+        # Sample ID
+        self.inputSampleID = self.findChild(QtWidgets.QLineEdit, 'sampleIDText')
+        # Date of Analysis
+        self.analysisDateValue = self.findChild(QtWidgets.QLineEdit, 'sampleDate')
+        # Acquisition Time
+        self.acqTimeTime = self.findChild(QtWidgets.QLineEdit, 'sampleAcqTime')
+        # Sample Species
+        self.speciesListText = self.findChild(QtWidgets.QLineEdit, 'speciesListText')
+        # Primary Ions
+        self.pIonsText = self.findChild(QtWidgets.QLineEdit, 'samplePriIONText')
+        # Primary Ions Energy
+        self.pIonsEnergyValue = self.findChild(QtWidgets.QLineEdit, 'priIonEValue')
+        # Number of data points
+        self.dataPointsText = self.findChild(QtWidgets.QLineEdit, 'sampleDataPoints')
         # Annealing Temperature
         self.annTemp = self.findChild(QtWidgets.QDoubleSpinBox, 'inputAnnTemp')
-
         # Annealing Time
         self.annTime = self.findChild(QtWidgets.QDoubleSpinBox, 'inputAnnTime')
-
         # Gas Composition
         self.gasComp = self.findChild(QtWidgets.QComboBox, 'inputGasComposition')
-
         # Cooling Method
         self.coolingMethod = self.findChild(QtWidgets.QComboBox, 'inputCoolingMethod')
-
         # Matrix Composition
         self.matrixComp = self.findChild(QtWidgets.QComboBox, 'matrixCompComboBox')
-
         # Sputtering Rate
-        self.sputtRate = self.findChild(QtWidgets.QDoubleSpinBox, 'sputtRateValue')
-
+        self.sputtRate = self.findChild(QtWidgets.QDoubleSpinBox, 'inputSputtRate')
         # Additional Notes
         self.addNotes = self.findChild(QtWidgets.QTextEdit, 'addNotesText')
+
+        # Display Components
+        # Sample ID
+        self.displaySampleID = self.findChild(QtWidgets.QLineEdit, 'displaySampleID')
+        # Annealing Temperature
+        self.displayAnnTemp = self.findChild(QtWidgets.QDoubleSpinBox, 'displayAnnTemp')
+        # Annealing Time
+        self.displayAnnTime = self.findChild(QtWidgets.QDoubleSpinBox, 'displayAnnTime')
+        # Gas Composition
+        self.displayGasComp = self.findChild(QtWidgets.QComboBox, 'displayGasComp')
+        # Cooling Method
+        self.displayCoolingMethod = self.findChild(QtWidgets.QComboBox, 'displayCoolMethod')
+        # Matrix Composition
+        self.displayMatrixComp = self.findChild(QtWidgets.QComboBox, 'displayMatrixComp')
+        # Sputtering Rate
+        self.displaySputtRate = self.findChild(QtWidgets.QDoubleSpinBox, 'displaySputtRate')
+        # Additional Notes
+        self.displayAddNotes = self.findChild(QtWidgets.QTextEdit, 'displayAddNotes')
+
+        # Extract Components
+        # Samples List
+        self.samplesList = self.findChild(QtWidgets.QListWidget, 'samplesList')
+        # Filter Species List
+        self.filterSpeciesList = self.findChild(QtWidgets.QListWidget, 'filterSpeciesList')
+        # Filter Annealing Temperature List
+        self.filterAnnTempsList = self.findChild(QtWidgets.QListWidget, 'filterAnnTempList')
+        # Filter Cooling Method List
+        self.filterCoolingMethodList = self.findChild(QtWidgets.QListWidget, 'filterCoolingList')
+        # Filter Gas Composition List
+        self.filterGasCompList = self.findChild(QtWidgets.QListWidget, 'filterGasCompList')
+        # Filter Matrix Composition List
+        self.filterMatrixCompList = self.findChild(QtWidgets.QListWidget, 'filterMatrixCompList')
 
     def initializeInputInterface(self):
         # Fill lists with data from database
@@ -108,14 +148,12 @@ class MainUI(QtWidgets.QMainWindow):
 
     def updateExtractInterface(self):
         # Samples List
-        self.samplesList = self.findChild(QtWidgets.QListWidget, 'samplesList')
         self.samplesList.clicked.connect(self.sampleSelected)
         self.samplesList.clear()
         for sample in self.dbConn.getSamples():
                 self.samplesList.addItem(sample[0])
 
         # Filter Species List
-        self.filterSpeciesList = self.findChild(QtWidgets.QListWidget, 'filterSpeciesList')
         self.filterSpeciesList.clear()
         for specie in self.dbConn.getSpecies():
             if specie[0] == "":
@@ -123,7 +161,6 @@ class MainUI(QtWidgets.QMainWindow):
             self.filterSpeciesList.addItem(specie[0])
 
         # Filter Annealing Temps List
-        self.filterAnnTempsList = self.findChild(QtWidgets.QListWidget, 'filterAnnTempList')
         self.filterAnnTempsList.clear()
         for temp in self.dbConn.getAnnealingTemps():
             if temp[0] == "":
@@ -131,7 +168,6 @@ class MainUI(QtWidgets.QMainWindow):
             self.filterAnnTempsList.addItem(str(temp[0]))
 
         # Filter Cooling Method List
-        self.filterCoolingMethodList = self.findChild(QtWidgets.QListWidget, 'filterCoolingList')
         self.filterCoolingMethodList.clear()
         for method in self.dbConn.getCoolingMethod():
             if method[0] == "":
@@ -139,7 +175,6 @@ class MainUI(QtWidgets.QMainWindow):
             self.filterCoolingMethodList.addItem(method[0])
         
         # Filter Gas Composition List
-        self.filterGasCompList = self.findChild(QtWidgets.QListWidget, 'filterGasCompList')
         self.filterGasCompList.clear()
         for gas in self.dbConn.getGasComposition():
             if gas[0] == "":
@@ -147,7 +182,6 @@ class MainUI(QtWidgets.QMainWindow):
             self.filterGasCompList.addItem(gas[0])
 
         # Filter Matrix Composition List
-        self.filterMatrixCompList = self.findChild(QtWidgets.QListWidget, 'filterMatrixCompList')
         self.filterMatrixCompList.clear()
         for matrix in self.dbConn.getMatrixComposition():
             if matrix[0] == "":
@@ -156,38 +190,28 @@ class MainUI(QtWidgets.QMainWindow):
 
     def updateInputInterface(self):
         try:
-            self.sampleIDText = self.findChild(QtWidgets.QLineEdit, 'sampleIDText')
             self.sampleIDText.setText(self.sampleID)
-
-            self.sampleDateDate = self.findChild(QtWidgets.QLineEdit, 'sampleDateDate')
-            self.sampleDateDate.setText(self.analysisDate)
-
-            self.acqTimeTime = self.findChild(QtWidgets.QLineEdit, 'sampleAcqTimeTime')
+            self.analysisDateValue.setText(self.analysisDate)
             self.acqTimeTime.setText(self.acqTime)
-
-            self.speciesListText = self.findChild(QtWidgets.QLineEdit, 'speciesListText')
             self.speciesListText.setText(self.speciesListString)
-            
-            self.pIonsText = self.findChild(QtWidgets.QLineEdit, 'samplePriIONText')
             self.pIonsText.setText(self.pIons)
-
-            self.pIonsEnergyValue = self.findChild(QtWidgets.QSpinBox, 'samplePriIONEValue')
-            self.pIonsEnergyValue.setValue(int(self.pIonsEnergy))
-
-            self.dataPointsText = self.findChild(QtWidgets.QLineEdit, 'sampleDataPointsText')
+            self.pIonsEnergyValue.setText(self.pIonsEnergy)
             self.dataPointsText.setText(str(self.dataPoints))
         except Exception as e:
             self.createPopupMessage('Error', e)
-            pass
+            return
     
     def sampleSelected(self):
+        # Get Sample ID
         sampleID = self.samplesList.currentItem().text()
-        annTime = self.findChild(QtWidgets.QDoubleSpinBox, 'extractAnnTimeValue')
-        annTime.setValue(self.dbConn.getAnnealingTime(sampleID)[0])
+        
+        # Display sample details on Sample Information tab
+        self.displaySampleID.setText(str(sampleID))
+        self.displayAnnTime.setValue(self.dbConn.getAnnealingTime(sampleID)[0])
+        self.displaySputtRate.setValue(self.dbConn.getSputteringRate(sampleID)[0])
 
-        sputtRate = self.findChild(QtWidgets.QDoubleSpinBox, 'extractSputtRateValue')
-        sputtRate.setValue(self.dbConn.getSputteringRate(sampleID)[0])
 
+        # Add sample species to list on extract tab
         self.normList = self.findChild(QtWidgets.QListWidget, 'outNormList')
         self.normList.clear()
         self.specieList = self.findChild(QtWidgets.QListWidget, 'outSpeciesList')
@@ -200,13 +224,14 @@ class MainUI(QtWidgets.QMainWindow):
         try:
             filename = QtWidgets.QFileDialog.getOpenFileName(self, 'Open File')
             dataFile = open(filename[0], 'rt')
-                # Check if datafile is valid
+            # Check if datafile is valid
             if not dataFile.readline().startswith('*** DATA FILES ***'):
+                self.createPopupMessage('Error', 'Invalid Data File')
                 return
             self.isFileOpen = True
         except FileNotFoundError as e:
         # A file was not chosen or it was wrongly selected so do nothing
-            self.createPopupMessage('Error', 'Error Opening File')
+            self.createPopupMessage('Error', 'Error Opening File: ' + e.args[0])
             return
         
         try:
@@ -242,12 +267,10 @@ class MainUI(QtWidgets.QMainWindow):
             self.df.columns = self.header
         
         except Exception as e:
-            self.createPopupMessage('Error', 'Error extracting information from File')
-        
+            self.createPopupMessage('Error', 'Error extracting information from File: ' + e.args[0])
+
         finally:
             dataFile.close()
-
-        
 
     # Save Data File and User Input to SQLite Database
     def saveInputData(self):
@@ -256,11 +279,13 @@ class MainUI(QtWidgets.QMainWindow):
         # Do nothing if file has not been opened
             if self.isFileOpen is not True:
                 return
-            # self.inputValidation() # Waiting on Shane
-            
+            # valid = self.inputValidation() # Waiting on Shane
+            # if not valid:
+            #   self.createPopupMessage('Error', )
+            simsData = BytesIO()
+            self.df.to_pickle(simsData, 'zip')
             # Pass necessary data to insert functions
-            self.dbConn.insertSampleData(self.sampleID, self.df)
-            self.dbConn.insertSampleMetadata(self.sampleID, self.annTemp.value(), self.annTime.value(), self.gasComp.currentText(), self.coolingMethod.currentText(), self.matrixComp.currentText(), self.sputtRate.value(), self.addNotes.toPlainText(), self.dataPoints)
+            self.dbConn.insertSampleData(self.sampleID, simsData, self.analysisDate, self.acqTime, self.annTemp.value(), self.annTime.value(), self.gasComp.currentText(), self.coolingMethod.currentText(), self.matrixComp.currentText(), self.sputtRate.value(),self.pIons, self.pIonsEnergy, self.addNotes.toPlainText(), self.dataPoints)
             self.dbConn.insertAnnealingTemp(self.annTemp.value())
             self.dbConn.insertCoolingMethod(self.coolingMethod.currentText())
             self.dbConn.insertGasComp(self.gasComp.currentText())
@@ -276,9 +301,10 @@ class MainUI(QtWidgets.QMainWindow):
             self.dbConn.dbCommit()
         
         except Exception as e:
-            msg = e
+            msg = e.args[0]
         finally:    
-            self.createPopupMessage(msg)
+            self.createPopupMessage('Message', msg)
+        
         self.updateExtractInterface()
 
     def createPopupMessage(self, title="Title", msg="Message"):
@@ -303,6 +329,9 @@ class MainUI(QtWidgets.QMainWindow):
         simsDF = pd.read_csv(simsData)
         for specie in self.specieList.selectedItems():
             species.append(specie.text())
+
+        print(simsDF.columns)
+        print(simsDF.head)
 
         # Extract selected species
         numOfColumns = len(simsDF.columns[0].split())

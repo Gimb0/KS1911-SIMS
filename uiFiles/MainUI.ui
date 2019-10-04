@@ -27,7 +27,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="InputTab">
        <attribute name="title">
@@ -101,7 +101,7 @@
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QLineEdit" name="sampleDateDate">
+               <widget class="QLineEdit" name="sampleDate">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -126,7 +126,7 @@
                </widget>
               </item>
               <item row="2" column="1">
-               <widget class="QLineEdit" name="sampleAcqTimeTime">
+               <widget class="QLineEdit" name="sampleAcqTime">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -151,7 +151,7 @@
                </widget>
               </item>
               <item row="3" column="1">
-               <widget class="QLineEdit" name="sampleDataPointsText">
+               <widget class="QLineEdit" name="sampleDataPoints">
                 <property name="readOnly">
                  <bool>true</bool>
                 </property>
@@ -232,11 +232,7 @@
                </widget>
               </item>
               <item row="3" column="2">
-               <widget class="QSpinBox" name="samplePriIONEValue">
-                <property name="readOnly">
-                 <bool>true</bool>
-                </property>
-               </widget>
+               <widget class="QLineEdit" name="priIonEValue"/>
               </item>
              </layout>
             </widget>
@@ -342,7 +338,14 @@
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QDoubleSpinBox" name="sputtRateValue"/>
+               <widget class="QDoubleSpinBox" name="inputSputtRate">
+                <property name="decimals">
+                 <number>5</number>
+                </property>
+                <property name="maximum">
+                 <double>2000.000000000000000</double>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
@@ -363,7 +366,11 @@
              </property>
              <layout class="QGridLayout" name="gridLayout_12">
               <item row="0" column="1">
-               <widget class="QDoubleSpinBox" name="inputAnnTemp"/>
+               <widget class="QDoubleSpinBox" name="inputAnnTemp">
+                <property name="maximum">
+                 <double>2000.000000000000000</double>
+                </property>
+               </widget>
               </item>
               <item row="2" column="0">
                <widget class="QLabel" name="label_2">
@@ -428,7 +435,11 @@
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QDoubleSpinBox" name="inputAnnTime"/>
+               <widget class="QDoubleSpinBox" name="inputAnnTime">
+                <property name="maximum">
+                 <double>200.000000000000000</double>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
@@ -499,42 +510,6 @@
            <string>Filter Options</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_3">
-           <item row="0" column="0">
-            <widget class="QLabel" name="filterSpeciesLabel">
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Species</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1">
-            <widget class="QLabel" name="filterGasCompLabel">
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Gas Composition</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="filterMatrixCompLabel">
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Matrix Composition</string>
-             </property>
-            </widget>
-           </item>
            <item row="0" column="1">
             <widget class="QLabel" name="filterAnnTempLabel">
              <property name="font">
@@ -559,6 +534,25 @@
              </property>
             </widget>
            </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="filterMatrixCompLabel">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Matrix Composition</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QListWidget" name="filterAnnTempList">
+             <property name="selectionMode">
+              <enum>QAbstractItemView::MultiSelection</enum>
+             </property>
+            </widget>
+           </item>
            <item row="1" column="0" rowspan="3">
             <widget class="QListWidget" name="filterSpeciesList">
              <property name="verticalScrollBarPolicy">
@@ -569,43 +563,11 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
-            <widget class="QListWidget" name="filterAnnTempList">
-             <property name="selectionMode">
-              <enum>QAbstractItemView::MultiSelection</enum>
-             </property>
-             <item>
-              <property name="text">
-               <string>Sample Temps</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>1173</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>989</string>
-              </property>
-             </item>
-            </widget>
-           </item>
            <item row="3" column="1">
             <widget class="QListWidget" name="filterCoolingList">
              <property name="selectionMode">
               <enum>QAbstractItemView::MultiSelection</enum>
              </property>
-             <item>
-              <property name="text">
-               <string>Sample cooling methods</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Quenching</string>
-              </property>
-             </item>
             </widget>
            </item>
            <item row="5" column="1">
@@ -613,16 +575,6 @@
              <property name="selectionMode">
               <enum>QAbstractItemView::MultiSelection</enum>
              </property>
-             <item>
-              <property name="text">
-               <string>Sample gas comps.</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Oxygen</string>
-              </property>
-             </item>
             </widget>
            </item>
            <item row="5" column="0">
@@ -630,27 +582,71 @@
              <property name="selectionMode">
               <enum>QAbstractItemView::MultiSelection</enum>
              </property>
-             <item>
-              <property name="text">
-               <string>Sample Matric comps</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>In203</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>TiO2</string>
-              </property>
-             </item>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="filterSpeciesLabel">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Species</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QLabel" name="filterGasCompLabel">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Gas Composition</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0">
+            <widget class="QPushButton" name="clearButton">
+             <property name="text">
+              <string>Clear</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1">
+            <widget class="QPushButton" name="filterButton">
+             <property name="text">
+              <string>Filter</string>
+             </property>
             </widget>
            </item>
           </layout>
          </widget>
         </item>
-        <item row="1" column="1" rowspan="2">
+        <item row="0" column="0">
+         <widget class="QGroupBox" name="samplesGroup">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="title">
+           <string>Samples in Database</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_6">
+           <item row="0" column="0">
+            <widget class="QListWidget" name="samplesList">
+             <property name="verticalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOn</enum>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="1" column="0" rowspan="2" colspan="2">
          <widget class="QGroupBox" name="outputSelectionsGroup">
           <property name="font">
            <font>
@@ -702,74 +698,394 @@
           </layout>
          </widget>
         </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Sample Information</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_16">
         <item row="0" column="0">
-         <widget class="QGroupBox" name="samplesGroup">
+         <widget class="QGroupBox" name="metadataGroup_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="font">
            <font>
             <pointsize>12</pointsize>
            </font>
           </property>
           <property name="title">
-           <string>Samples in Database</string>
+           <string>Sample File Information</string>
           </property>
-          <layout class="QGridLayout" name="gridLayout_6">
+          <layout class="QGridLayout" name="gridLayout_19">
            <item row="0" column="0">
-            <widget class="QListWidget" name="samplesList">
-             <property name="verticalScrollBarPolicy">
-              <enum>Qt::ScrollBarAlwaysOn</enum>
+            <widget class="QFrame" name="MDFrame1_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+               <horstretch>30</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_14">
+              <item row="0" column="0">
+               <widget class="QLabel" name="sampleIDLabel_2">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Sample ID:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLineEdit" name="displaySampleID">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+                <property name="clearButtonEnabled">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="sampleDateLabel_2">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Date of Analysis:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLineEdit" name="displayAnalDate">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="sampleAcqTimeLabel_2">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Total Acquisition Time:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLineEdit" name="displayAcqTime">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="sampleDataPointsLabel_2">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Number of Data Points:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QLineEdit" name="displayDataPoints">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QFrame" name="MDFrame2_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_15">
+              <item row="2" column="0">
+               <widget class="QLabel" name="samplePriIONLabel_2">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Primary Ions:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="samplePriIONELabel_2">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Primary Ions Energy (keV):</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QLineEdit" name="displayPriIon">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="speciesListLabel_2">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Species List:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QLineEdit" name="displaySpeciesList">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="2">
+               <widget class="QLineEdit" name="displayPriIonE"/>
+              </item>
+             </layout>
             </widget>
            </item>
           </layout>
          </widget>
         </item>
-        <item row="1" column="0" rowspan="2">
-         <widget class="QGroupBox" name="MDROGroup">
+        <item row="1" column="0">
+         <widget class="QGroupBox" name="inputInputGroupBox_2">
           <property name="font">
            <font>
             <pointsize>12</pointsize>
            </font>
           </property>
           <property name="title">
-           <string>Selected Sample Information</string>
+           <string>Metadata Input</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_4">
-           <item>
-            <widget class="QLabel" name="label_16">
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
+          <layout class="QGridLayout" name="gridLayout_13">
+           <item row="0" column="1">
+            <widget class="QFrame" name="MDInputFrame2_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>10</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <property name="text">
-              <string>Annealing Time (h)</string>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
              </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_17">
+              <item row="0" column="0">
+               <widget class="QLabel" name="matrixCompLabel_2">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Matrix Composition:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="sputtRateLabel_2">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Sputtering Rate (nm/s):</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLineEdit" name="displaySputtRate"/>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLineEdit" name="displayMatrixComp"/>
+              </item>
+             </layout>
             </widget>
            </item>
-           <item>
-            <widget class="QDoubleSpinBox" name="extractAnnTimeValue">
-             <property name="readOnly">
-              <bool>true</bool>
+           <item row="1" column="0" colspan="2">
+            <widget class="QFrame" name="MDInputFrame3_2">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
              </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_4">
+              <item>
+               <widget class="QLabel" name="addNotesLabel_2">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Additional Notes</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QTextEdit" name="displayAddNotes">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="verticalScrollBarPolicy">
+                 <enum>Qt::ScrollBarAlwaysOn</enum>
+                </property>
+                <property name="horizontalScrollBarPolicy">
+                 <enum>Qt::ScrollBarAlwaysOff</enum>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </widget>
            </item>
-           <item>
-            <widget class="QLabel" name="label_17">
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
+           <item row="0" column="0">
+            <widget class="QFrame" name="MDInputFrame1_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>10</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <property name="text">
-              <string>Sputtering Rate (nm/s)</string>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
              </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QDoubleSpinBox" name="extractSputtRateValue">
-             <property name="readOnly">
-              <bool>true</bool>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
              </property>
+             <layout class="QGridLayout" name="gridLayout_18">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_8">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Annealing Temperature (K):</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLineEdit" name="displayAnnTemp"/>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_9">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Annealing Time (h):</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLineEdit" name="displayAnnTime"/>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_4">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Gas Composition:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLineEdit" name="displayGasComp"/>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_5">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Cooling Method:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QLineEdit" name="displayCoolMethod"/>
+              </item>
+             </layout>
             </widget>
            </item>
           </layout>
@@ -813,18 +1129,16 @@
  </widget>
  <layoutdefault spacing="6" margin="10"/>
  <tabstops>
-  <tabstop>TabWidget</tabstop>
   <tabstop>sampleIDText</tabstop>
-  <tabstop>sampleDateDate</tabstop>
-  <tabstop>sampleAcqTimeTime</tabstop>
-  <tabstop>sampleDataPointsText</tabstop>
+  <tabstop>sampleDate</tabstop>
+  <tabstop>sampleAcqTime</tabstop>
+  <tabstop>sampleDataPoints</tabstop>
   <tabstop>speciesListText</tabstop>
   <tabstop>samplePriIONText</tabstop>
   <tabstop>inputAnnTemp</tabstop>
   <tabstop>inputGasComposition</tabstop>
   <tabstop>inputCoolingMethod</tabstop>
   <tabstop>matrixCompComboBox</tabstop>
-  <tabstop>sputtRateValue</tabstop>
   <tabstop>addNotesText</tabstop>
   <tabstop>openDFButton</tabstop>
   <tabstop>saveDataButton</tabstop>
@@ -834,8 +1148,6 @@
   <tabstop>filterCoolingList</tabstop>
   <tabstop>filterMatrixCompList</tabstop>
   <tabstop>filterGasCompList</tabstop>
-  <tabstop>extractAnnTimeValue</tabstop>
-  <tabstop>extractSputtRateValue</tabstop>
   <tabstop>outNormList</tabstop>
   <tabstop>outSpeciesList</tabstop>
   <tabstop>extractDataButton</tabstop>

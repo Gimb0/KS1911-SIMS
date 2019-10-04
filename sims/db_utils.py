@@ -1,7 +1,7 @@
 import sqlite3
 import os
 
-DEFAULT_PATH = os.path.join(os.path.dirname(__file__), 'simsdatastore.sqlite3')
+DEFAULT_PATH = os.path.join(os.path.dirname(__file__), '../simsdatastore.sqlite3')
 
 class dbUtils():
     def __init__(self):
@@ -25,23 +25,21 @@ class dbUtils():
     def createDB(self):
         self.con = self.dbConnect()
         self.cur = self.con.cursor()
-
-        # Create Sample Data Table
-        sampleDataTable = """CREATE TABLE sampleData (
-            sampleID TEXT PRIMARY KEY,
-            simsData BLOB
-        )"""
-        self.cur.execute(sampleDataTable)
         
-        # Create Sample Metadata Table
-        sampleMDTable = """CREATE TABLE sampleMetadata (
+        # Create Sample Data Table
+        sampleMDTable = """CREATE TABLE sampleData (
             sampleID TEXT PRIMARY KEY,
+            simsData BLOB,
+            acquisitionDate TEXT,
+            totalAcquisitionTime TEXT,
             annealingTemp REAL,
             annealingTime REAL,
             gasComposition TEXT,
             coolingMethod TEXT,
             matrixComposition TEXT,
             sputteringRate REAL,
+            primaryIon TEXT,
+            primaryIonEnergy DECIMAL(10, 5),
             additionalNotes TEXT,
             dataPoints INTEGER
         ) """
@@ -83,39 +81,22 @@ class dbUtils():
             FOREIGN KEY (specie) REFERENCES species(specie)
         )"""
         self.cur.execute(intSpeciesTable)
-
-    # Insert to or Update the sampleData Table
-    def insertSampleData(self, sampleID=None, simsData=None):
-        # Sample ID and Raw data cannot be None
-        if sampleID == None or simsData.empty is True:
-            return
-        
-        # Check if row exists with current sampleID
-        self.cur.execute("""SELECT sampleID FROM sampleData WHERE sampleID = ?""", (sampleID, ))
-        data = self.cur.fetchone()
-
-        # Insert if doesn't exist
-        if data == None:
-            self.cur.execute("""INSERT INTO sampleData (sampleID, simsData) VALUES (?, ?)""", (sampleID, simsData.to_string()))
-        # Update row if does exist
-        else:
-            self.cur.execute("""UPDATE sampleData SET simsData = ? WHERE sampleID = ?""", (simsData.to_string(), sampleID))
     
     # Insert to or Update the sampleMetadata Table
-    def insertSampleMetadata(self, sampleID=None, annealingTemp=None, annealingTime=None, gasComposition=None, coolingMethod=None,  matrixComposition=None, sputteringRate=None, additionalNotes=None, dataPoints=None):
+    def insertSampleData(self, sampleID=None, sampleData=None, acquisitionDate=None, totalAcquistionTime=None, annealingTemp=None, annealingTime=None, gasComposition=None, coolingMethod=None,  matrixComposition=None, sputteringRate=None, primaryIon=None, primaryIonEnergy=None, additionalNotes=None, dataPoints=None):
         # Sample ID must not be None, everything else can be
         if sampleID == None:
             return
 
         # Check if row exists with current sampleID
-        self.cur.execute("""SELECT sampleID FROM sampleMetadata WHERE sampleID = ?""", (sampleID, ))
+        self.cur.execute("""SELECT sampleID FROM sampleData WHERE sampleID = ?""", (sampleID, ))
         data = self.cur.fetchone()
         # Insert row if doesn't exist
         if data == None:
-            self.cur.execute("INSERT INTO sampleMetadata (sampleID, annealingTemp, annealingTime, gasComposition, coolingMethod, matrixComposition, sputteringRate, additionalNotes, dataPoints  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", (sampleID, annealingTemp, annealingTime, gasComposition, coolingMethod, matrixComposition, sputteringRate, additionalNotes, dataPoints))
+            self.cur.execute("INSERT INTO sampleData (sampleID, simsData, acquisitionDate, totalAcquisitionTime, annealingTemp, annealingTime, gasComposition, coolingMethod, matrixComposition, sputteringRate, primaryIon, primaryIonEnergy, additionalNotes, dataPoints  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (sampleID, sampleData, acquisitionDate, totalAcquistionTime, annealingTemp, annealingTime, gasComposition, coolingMethod, matrixComposition, sputteringRate, primaryIon, primaryIonEnergy, additionalNotes, dataPoints))
         # Update row if does exist
         else:
-            self.cur.execute("""UPDATE sampleMetadata SET annealingTemp = ?, annealingTime = ?, gasComposition = ?, coolingMethod = ?, matrixComposition = ?, sputteringRate = ?, additionalNotes = ?, dataPoints = ? WHERE sampleID = ?""", (annealingTemp, annealingTime, gasComposition, coolingMethod, matrixComposition, sputteringRate, additionalNotes, dataPoints, sampleID))
+            self.cur.execute("""UPDATE sampleData SET annealingTemp = ?, annealingTime = ?, gasComposition = ?, coolingMethod = ?, matrixComposition = ?, sputteringRate = ?, additionalNotes = ? WHERE sampleID = ?""", (annealingTemp, annealingTime, gasComposition, coolingMethod, matrixComposition, sputteringRate, additionalNotes, sampleID))
     
     def insertGasComp(self, gasComposition):
         if gasComposition is None:
@@ -203,4 +184,8 @@ class dbUtils():
 
     def getSimsData(self, sampleID):
         self.cur.execute("""SELECT simsData FROM sampleData WHERE sampleID = ?""", (sampleID, ))
+        return self.cur.fetchone()
+
+    def getSampleMetadata(self, sampleID):
+        self.cur.execute("""SELECT  FROM sampleData WHERE sampleID = ?""", (sampleID, ))
         return self.cur.fetchone()
