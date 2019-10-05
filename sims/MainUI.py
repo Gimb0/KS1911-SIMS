@@ -319,34 +319,31 @@ class MainUI(QtWidgets.QMainWindow):
     # Save Data File and User Input to SQLite Database
     def saveInputData(self):
         msg = "Successfully saved data to database"
-        # try:
-        # Do nothing if file has not been opened
-        if self.isFileOpen is not True:
-            return
-        # valid = self.inputValidation() # Waiting on Shane
-        # if not valid:
-        #   self.createPopupMessage('Error', )
+        try:
+            # Do nothing if file has not been opened
+            if self.isFileOpen is not True:
+                return
 
-        # Pass necessary data to insert functions
-        self.dbConn.insertSampleData(self.sampleID, self.df.to_json(), self.analysisDate, self.acqTime, self.annTemp.value(), self.annTime.value(), self.gasComp.currentText(), self.coolingMethod.currentText(), self.matrixComp.currentText(), self.sputtRate.value(), self.pIons, self.pIonsEnergy, self.addNotes.toPlainText(), self.dataPoints)
-        self.dbConn.insertAnnealingTemp(self.annTemp.value())
-        self.dbConn.insertCoolingMethod(self.coolingMethod.currentText())
-        self.dbConn.insertGasComp(self.gasComp.currentText())
-        self.dbConn.insertMatrixComp(self.matrixComp.currentText())
+            # Pass necessary data to insert functions
+            self.dbConn.insertSampleData(self.sampleID, self.df.to_json(), self.analysisDate, self.acqTime, self.annTemp.value(), self.annTime.value(), self.gasComp.currentText(), self.coolingMethod.currentText(), self.matrixComp.currentText(), self.sputtRate.value(), self.pIons, self.pIonsEnergy, self.addNotes.toPlainText(), self.dataPoints)
+            self.dbConn.insertAnnealingTemp(self.annTemp.value())
+            self.dbConn.insertCoolingMethod(self.coolingMethod.currentText())
+            self.dbConn.insertGasComp(self.gasComp.currentText())
+            self.dbConn.insertMatrixComp(self.matrixComp.currentText())
 
-        species = self.speciesListString.split()
-        for specie in species:
-            specie = specie.strip(',')
-            self.dbConn.insertSpecies(specie)
-            self.dbConn.insertIntSpecies(self.sampleID, specie)
+            species = self.speciesListString.split()
+            for specie in species:
+                specie = specie.strip(',')
+                self.dbConn.insertSpecies(specie)
+                self.dbConn.insertIntSpecies(self.sampleID, specie)
 
-        # Commit changes to database
-        self.dbConn.dbCommit()
+            # Commit changes to database
+            self.dbConn.dbCommit()
         
-        # except Exception as e:
-        #     msg = e.args[0]
-        # finally:    
-        self.createPopupMessage('Message', msg)
+        except Exception as e:
+            msg = e.args[0]
+        finally:    
+            self.createPopupMessage('Message', msg)
         
         self.updateExtractInterface()
 
@@ -391,9 +388,6 @@ class MainUI(QtWidgets.QMainWindow):
                 metadataQuery += "matrixComposition = \"" + matrix.text() + "\" OR "
         
         samplesList2 = self.dbConn.getSamplesWithMetadata(metadataQuery[:-4])
-
-        print(samplesList1)
-        print(samplesList2)
 
         self.samplesList.clear()
         for sample in set(samplesList1) or set(samplesList2):
@@ -450,7 +444,7 @@ class MainUI(QtWidgets.QMainWindow):
         # Every species selected  
         for specie in outputSpecies:
             speciesList2.append('count-'+specie.text())
-            fileNameStr += specie.text() + '_'
+            fileNameStr += '-' + specie.text()
         
         # List of every selected species in sample
         speciesList = list(set(speciesList1) & set(speciesList2))
@@ -465,9 +459,10 @@ class MainUI(QtWidgets.QMainWindow):
 
         # Allow user to select where to save file
         try:
-            fName = sampleID + '_' + fileNameStr + '.csv'
+            fName = sampleID + fileNameStr + '.csv'
             filename = QtWidgets.QFileDialog.getSaveFileName(self, 'Save File', fName)
-            processedDF.to_csv(filename)
+            processedDF.to_csv(filename[0])
+            self.createPopupMessage('Success', 'Saved File!')
         except:
             processedDF.to_csv(fName)
             self.createPopupMessage('Error', 'Saved File elsewhere' + fName)

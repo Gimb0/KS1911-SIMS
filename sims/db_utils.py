@@ -203,6 +203,5 @@ class dbUtils():
         if filterQuery is "":
             return []
         query = """SELECT sampleID FROM sampleData WHERE """ + filterQuery
-        print(query)
         self.cur.execute(query)
         return self.cur.fetchall()
