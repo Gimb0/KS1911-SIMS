@@ -1,6 +1,7 @@
 import sqlite3
 import os
 
+# Add option to open a database
 DEFAULT_PATH = os.path.join(os.path.dirname(__file__), '../simsdatastore.sqlite3')
 
 class dbUtils():
@@ -39,7 +40,7 @@ class dbUtils():
             matrixComposition TEXT,
             sputteringRate REAL,
             primaryIon TEXT,
-            primaryIonEnergy DECIMAL(10, 5),
+            primaryIonEnergy REAL,
             additionalNotes TEXT,
             dataPoints INTEGER
         ) """
@@ -82,7 +83,7 @@ class dbUtils():
         )"""
         self.cur.execute(intSpeciesTable)
     
-    # Insert to or Update the sampleMetadata Table
+    # Insert to or Update the sampleData Table
     def insertSampleData(self, sampleID=None, sampleData=None, acquisitionDate=None, totalAcquistionTime=None, annealingTemp=None, annealingTime=None, gasComposition=None, coolingMethod=None,  matrixComposition=None, sputteringRate=None, primaryIon=None, primaryIonEnergy=None, additionalNotes=None, dataPoints=None):
         # Sample ID must not be None, everything else can be
         if sampleID == None:
@@ -93,13 +94,13 @@ class dbUtils():
         data = self.cur.fetchone()
         # Insert row if doesn't exist
         if data == None:
-            self.cur.execute("INSERT INTO sampleData (sampleID, simsData, acquisitionDate, totalAcquisitionTime, annealingTemp, annealingTime, gasComposition, coolingMethod, matrixComposition, sputteringRate, primaryIon, primaryIonEnergy, additionalNotes, dataPoints  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (sampleID, sampleData, acquisitionDate, totalAcquistionTime, annealingTemp, annealingTime, gasComposition, coolingMethod, matrixComposition, sputteringRate, primaryIon, primaryIonEnergy, additionalNotes, dataPoints))
+            self.cur.execute("INSERT INTO sampleData (sampleID, simsData, acquisitionDate, totalAcquisitionTime, annealingTemp, annealingTime, gasComposition, coolingMethod, matrixComposition, sputteringRate, primaryIon, primaryIonEnergy, additionalNotes, dataPoints  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (sampleID, sampleData, acquisitionDate, totalAcquistionTime, annealingTemp, annealingTime, gasComposition, coolingMethod, matrixComposition, sputteringRate, primaryIon, primaryIonEnergy, additionalNotes, dataPoints))
         # Update row if does exist
         else:
             self.cur.execute("""UPDATE sampleData SET annealingTemp = ?, annealingTime = ?, gasComposition = ?, coolingMethod = ?, matrixComposition = ?, sputteringRate = ?, additionalNotes = ? WHERE sampleID = ?""", (annealingTemp, annealingTime, gasComposition, coolingMethod, matrixComposition, sputteringRate, additionalNotes, sampleID))
     
     def insertGasComp(self, gasComposition):
-        if gasComposition is None:
+        if gasComposition is "":
             return
         self.cur.execute("""SELECT gas FROM gasCompositions WHERE gas = ?""", (gasComposition, ))
         data = self.cur.fetchone()
@@ -107,7 +108,7 @@ class dbUtils():
             self.cur.execute("INSERT INTO gasCompositions (gas) VALUES (?)", (gasComposition, ))
 
     def insertCoolingMethod(self, coolingMethod):
-        if coolingMethod is None:
+        if coolingMethod is "":
             return
         self.cur.execute("""SELECT method FROM coolingMethod WHERE method = ?""", (coolingMethod, ))
         data = self.cur.fetchone()
@@ -115,7 +116,7 @@ class dbUtils():
             self.cur.execute("INSERT INTO coolingMethod (method) VALUES (?)", (coolingMethod, ))
 
     def insertAnnealingTemp(self, temperature):
-        if temperature is None:
+        if temperature is 0.0:
             return
         self.cur.execute("""SELECT * FROM annealingTemp WHERE temperature = ?""", (temperature, ))
         data = self.cur.fetchone()
@@ -123,7 +124,7 @@ class dbUtils():
             self.cur.execute("INSERT INTO annealingTemp (temperature) VALUES (?)", (temperature, ))
 
     def insertMatrixComp(self, matrix):
-        if matrix is None:
+        if matrix is "":
             return
         self.cur.execute("""SELECT * FROM matrixCompositions WHERE matrix = ?""", (matrix, ))
         data = self.cur.fetchone()
@@ -131,7 +132,7 @@ class dbUtils():
             self.cur.execute("""INSERT INTO matrixCompositions (matrix) VALUES (?)""", (matrix, ))
 
     def insertSpecies(self, specie):
-        if specie is None:
+        if specie is "":
             return
         self.cur.execute("""SELECT * FROM species WHERE specie = ?""", (specie, ))
         data = self.cur.fetchone()
@@ -159,7 +160,7 @@ class dbUtils():
         return self.cur.fetchall()
 
     def getAnnealingTime(self, sampleID):
-        self.cur.execute("""SELECT annealingTime FROM sampleMetadata WHERE sampleID = ?""", (sampleID, ))
+        self.cur.execute("""SELECT annealingTime FROM sampleData WHERE sampleID = ?""", (sampleID, ))
         return self.cur.fetchone()
 
     def getCoolingMethod(self):
@@ -175,7 +176,7 @@ class dbUtils():
         return self.cur.fetchall()
 
     def getSputteringRate(self, sampleID):
-        self.cur.execute("""SELECT sputteringRate FROM sampleMetadata WHERE sampleID = ?""", (sampleID, ))
+        self.cur.execute("""SELECT sputteringRate FROM sampleData WHERE sampleID = ?""", (sampleID, ))
         return self.cur.fetchone()
 
     def getSampleSpecies(self, sampleID):
@@ -187,5 +188,21 @@ class dbUtils():
         return self.cur.fetchone()
 
     def getSampleMetadata(self, sampleID):
-        self.cur.execute("""SELECT  FROM sampleData WHERE sampleID = ?""", (sampleID, ))
+        # Only thing not needed is simsData. Doing * cause lazy
+        self.cur.execute("""SELECT * FROM sampleData WHERE sampleID = ?""", (sampleID, ))
         return self.cur.fetchone()
+
+    def getSamplesWithSpecies(self, filterQuery):
+        if filterQuery is "":
+            return []
+        query = """SELECT sampleID FROM intSpecies WHERE """ + filterQuery
+        self.cur.execute(query)
+        return self.cur.fetchall()
+
+    def getSamplesWithMetadata(self, filterQuery):
+        if filterQuery is "":
+            return []
+        query = """SELECT sampleID FROM sampleData WHERE """ + filterQuery
+        print(query)
+        self.cur.execute(query)
+        return self.cur.fetchall()

@@ -903,7 +903,11 @@
                </widget>
               </item>
               <item row="3" column="2">
-               <widget class="QLineEdit" name="displayPriIonE"/>
+               <widget class="QLineEdit" name="displayPriIonE">
+                <property name="readOnly">
+                  <bool>true</bool>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
@@ -962,10 +966,18 @@
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QLineEdit" name="displaySputtRate"/>
+               <widget class="QLineEdit" name="displaySputtRate">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
               </item>
               <item row="0" column="1">
-               <widget class="QLineEdit" name="displayMatrixComp"/>
+               <widget class="QLineEdit" name="displayMatrixComp">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
@@ -993,6 +1005,9 @@
               </item>
               <item>
                <widget class="QTextEdit" name="displayAddNotes">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>0</horstretch>
@@ -1038,7 +1053,11 @@
                </widget>
               </item>
               <item row="0" column="1">
-               <widget class="QLineEdit" name="displayAnnTemp"/>
+               <widget class="QLineEdit" name="displayAnnTemp">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
               </item>
               <item row="1" column="0">
                <widget class="QLabel" name="label_9">
@@ -1053,7 +1072,11 @@
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QLineEdit" name="displayAnnTime"/>
+               <widget class="QLineEdit" name="displayAnnTime">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
               </item>
               <item row="2" column="0">
                <widget class="QLabel" name="label_4">
@@ -1068,7 +1091,11 @@
                </widget>
               </item>
               <item row="2" column="1">
-               <widget class="QLineEdit" name="displayGasComp"/>
+               <widget class="QLineEdit" name="displayGasComp">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
               </item>
               <item row="3" column="0">
                <widget class="QLabel" name="label_5">
@@ -1083,7 +1110,11 @@
                </widget>
               </item>
               <item row="3" column="1">
-               <widget class="QLineEdit" name="displayCoolMethod"/>
+               <widget class="QLineEdit" name="displayCoolMethod">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
