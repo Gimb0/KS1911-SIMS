@@ -14,9 +14,10 @@ class MainUI(QtWidgets.QMainWindow):
         self.isFileOpen = False
 
         super(MainUI, self).__init__()
-       
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
+        uic.loadUi('MainUI.ui', self)
+        
+        # self.ui = Ui_MainWindow()
+        # self.ui.setupUi(self)
 
         # Add Actions to buttons and menus
 
@@ -226,7 +227,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.pIonsEnergyValue.setText(self.pIonsEnergy)
             self.dataPointsText.setText(str(self.dataPoints))
         except Exception as e:
-            self.createPopupMessage('Error', e)
+            self.createPopupMessage('Error', e[0])
             return
 
     def updateDisplayInterface(self, sampleID):
@@ -281,43 +282,43 @@ class MainUI(QtWidgets.QMainWindow):
             self.createPopupMessage('Error', 'Error Opening File: ' + e.args[0])
             return
         
-        try:
-            # Extract data from data file
-            for line in dataFile:
-                if line.startswith('Sample ID'):
-                    self.sampleID = line.split()[-1]
-                if line.startswith('Analysis date'):
-                    self.analysisDate = line.split()[-1]
-                if line.startswith('*** DATA START ***'):
-                    simsdata = self.extractSimsData(dataFile)
-                if line.startswith('Total acquisition time (s)'):
-                    self.acqTime = int(line.split()[-1])
-                    self.acqTime = str(timedelta(seconds=self.acqTime))
-                if line.startswith("*** MEASUREMENT CONDITIONS"):
-                    speciesList = self.extractSpeciesList(dataFile)
-                    self.header = []
-                    self.speciesListString = ""
-                    for specie in speciesList:
-                        self.speciesListString += specie + ", "
-                        self.header.extend([f'time-{specie}', f'count-{specie}'])
-                    self.speciesListString = self.speciesListString[0:-2]
-                if line.startswith("Primary ions"):
-                    self.pIons = line.split()[-1]
-                if line.startswith("Impact energy"):
-                    self.pIonsEnergy = line.split()[-1]
-                            
-            self.updateInputInterface()
-                
-            # Create pandas data frame
-            self.df = pd.read_csv(simsdata, header=None, delim_whitespace=True, skip_blank_lines=True)
-            simsdata.close()
-            self.df.columns = self.header
+        # try:
+        # Extract data from data file
+        for line in dataFile:
+            if line.startswith('Sample ID'):
+                self.sampleID = line.split()[-1]
+            if line.startswith('Analysis date'):
+                self.analysisDate = line.split()[-1]
+            if line.startswith('*** DATA START ***'):
+                simsdata = self.extractSimsData(dataFile)
+            if line.startswith('Total acquisition time (s)'):
+                self.acqTime = int(line.split()[-1])
+                self.acqTime = str(timedelta(seconds=self.acqTime))
+            if line.startswith("*** MEASUREMENT CONDITIONS"):
+                speciesList = self.extractSpeciesList(dataFile)
+                self.header = []
+                self.speciesListString = ""
+                for specie in speciesList:
+                    self.speciesListString += specie + ", "
+                    self.header.extend([f'time-{specie}', f'count-{specie}'])
+                self.speciesListString = self.speciesListString[0:-2]
+            if line.startswith("Primary ions"):
+                self.pIons = line.split()[-1]
+            if line.startswith("Impact energy"):
+                self.pIonsEnergy = line.split()[-1]
+                        
+        self.updateInputInterface()
+            
+        # Create pandas data frame
+        self.df = pd.read_csv(simsdata, header=None, delim_whitespace=True, skip_blank_lines=True)
+        simsdata.close()
+        self.df.columns = self.header
         
-        except Exception as e:
-            self.createPopupMessage('Error', 'Error extracting information from File: ' + e.args[0])
+        # except Exception as e:
+        #     self.createPopupMessage('Error', 'Error extracting information from File: ' + e.args[0])
 
-        finally:
-            dataFile.close()
+        # finally:
+        dataFile.close()
 
     # Save Data File and User Input to SQLite Database
     def saveInputData(self):
