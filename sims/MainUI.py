@@ -6,6 +6,7 @@ from io import BytesIO, StringIO, SEEK_SET
 import pandas as pd;
 from datetime import timedelta, time
 from db_utils import dbUtils
+from interface import Ui_MainWindow
 
 class MainUI(QtWidgets.QMainWindow):
     def __init__(self):
@@ -13,7 +14,9 @@ class MainUI(QtWidgets.QMainWindow):
         self.isFileOpen = False
 
         super(MainUI, self).__init__()
-        uic.loadUi('../uiFiles/MainUI.ui', self)
+       
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
 
         # Add Actions to buttons and menus
 

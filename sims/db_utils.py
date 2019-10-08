@@ -2,7 +2,7 @@ import sqlite3
 import os
 
 # Add option to open a database
-DEFAULT_PATH = os.path.join(os.path.dirname(__file__), '../simsdatastore.sqlite3')
+DEFAULT_PATH = os.path.join(os.path.dirname(__file__), 'simsdatastore.sqlite3')
 
 class dbUtils():
     def __init__(self):
