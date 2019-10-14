@@ -9,14 +9,12 @@ from db_utils import dbUtils
 
 class MainUI(QtWidgets.QMainWindow):
     def __init__(self):
-        # Class Variables
+        super(MainUI, self).__init__()
+        uic.loadUi('MainUI.ui', self)
+        
         self.isFileOpen = False
 
-        super(MainUI, self).__init__()
-        uic.loadUi('../uiFiles/MainUI.ui', self)
-
         # Add Actions to buttons and menus
-
         # Open Menu Button
         openFile = self.findChild(QtWidgets.QAction, 'actionOpenFile')
         openFile.triggered.connect(self.openDataFile)
@@ -81,7 +79,7 @@ class MainUI(QtWidgets.QMainWindow):
                 return names
 
     def getUIComponents(self):
-        # Input Components
+        # Input Tab
         # Sample ID
         self.inputSampleID = self.findChild(QtWidgets.QLineEdit, 'sampleIDText')
         # Date of Analysis
@@ -111,7 +109,7 @@ class MainUI(QtWidgets.QMainWindow):
         # Additional Notes
         self.addNotes = self.findChild(QtWidgets.QTextEdit, 'addNotesText')
 
-        # Display Components
+        # Display Tab
         # Sample ID
         self.displaySampleID = self.findChild(QtWidgets.QLineEdit, 'displaySampleID')
         # Annealing Temperature
@@ -141,7 +139,7 @@ class MainUI(QtWidgets.QMainWindow):
         # Additional Notes
         self.displayAddNotes = self.findChild(QtWidgets.QTextEdit, 'displayAddNotes')
 
-        # Extract Components
+        # Extract Tab
         # Samples List
         self.samplesList = self.findChild(QtWidgets.QListWidget, 'samplesList')
         # Filter Species List
@@ -211,7 +209,7 @@ class MainUI(QtWidgets.QMainWindow):
         for matrix in self.dbConn.getMatrixComposition():
             if matrix[0] == "":
                 pass
-            self.filterMatrixCompList.addItem(matrix[0]) 
+            self.filterMatrixCompList.addItem(matrix[0])
 
     def updateInputInterface(self):
         try:
@@ -223,7 +221,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.pIonsEnergyValue.setText(self.pIonsEnergy)
             self.dataPointsText.setText(str(self.dataPoints))
         except Exception as e:
-            self.createPopupMessage('Error', e)
+            self.createPopupMessage('Error', e[0])
             return
 
     def updateDisplayInterface(self, sampleID):
@@ -273,9 +271,9 @@ class MainUI(QtWidgets.QMainWindow):
                 self.createPopupMessage('Error', 'Invalid Data File')
                 return
             self.isFileOpen = True
-        except FileNotFoundError as e:
-        # A file was not chosen or it was wrongly selected so do nothing
-            self.createPopupMessage('Error', 'Error Opening File: ' + e.args[0])
+        except FileNotFoundError:
+            # A file was not chosen or it was wrongly selected so do nothing
+            self.createPopupMessage("Error", "Please select an existing data file")
             return
         
         try:
@@ -302,9 +300,9 @@ class MainUI(QtWidgets.QMainWindow):
                     self.pIons = line.split()[-1]
                 if line.startswith("Impact energy"):
                     self.pIonsEnergy = line.split()[-1]
-                            
+                        
             self.updateInputInterface()
-                
+                    
             # Create pandas data frame
             self.df = pd.read_csv(simsdata, header=None, delim_whitespace=True, skip_blank_lines=True)
             simsdata.close()
@@ -323,7 +321,6 @@ class MainUI(QtWidgets.QMainWindow):
             # Do nothing if file has not been opened
             if self.isFileOpen is not True:
                 return
-
             # Pass necessary data to insert functions
             self.dbConn.insertSampleData(self.sampleID, self.df.to_json(), self.analysisDate, self.acqTime, self.annTemp.value(), self.annTime.value(), self.gasComp.currentText(), self.coolingMethod.currentText(), self.matrixComp.currentText(), self.sputtRate.value(), self.pIons, self.pIonsEnergy, self.addNotes.toPlainText(), self.dataPoints)
             self.dbConn.insertAnnealingTemp(self.annTemp.value())
@@ -339,12 +336,11 @@ class MainUI(QtWidgets.QMainWindow):
 
             # Commit changes to database
             self.dbConn.dbCommit()
-        
         except Exception as e:
             msg = e.args[0]
         finally:    
             self.createPopupMessage('Message', msg)
-        
+            
         self.updateExtractInterface()
 
     def filterSamples(self):
@@ -352,46 +348,69 @@ class MainUI(QtWidgets.QMainWindow):
         speciesQuery = ""
         if len(self.filterSpeciesList.selectedItems()) > 0:
             for specie in self.filterSpeciesList.selectedItems():
-                if specie.text() is "":
+                if specie.text() == "":
                     next
                 speciesQuery += "specie = \"" + specie.text() + "\" OR "
         samplesList1 = self.dbConn.getSamplesWithSpecies(speciesQuery[:-4])
 
         metadataQuery = ""
 
+        # Add Annealing Temperature filters to query
         tempList = self.filterAnnTempsList.selectedItems()
         if len(tempList) > 0:
+            metadataQuery += "("
             for temp in tempList:
-                if temp.text() is "":
+                if temp.text() == "0.0":
                     next
-                metadataQuery += "annealingTemp = \"" + temp.text() + "\" OR "
-            metadataQuery = metadataQuery[:-4] + " AND "
+                metadataQuery += "annealingTemp = " + temp.text() + " OR "
+            metadataQuery = metadataQuery[:-4] + ") AND "
+        # Add Cooling Method filters to query
         methodList = self.filterCoolingMethodList.selectedItems()
         if len(methodList) > 0:
+            metadataQuery += "("
             for method in methodList:
-                if method.text() is "":
+                if method.text() == "":
                     next
                 metadataQuery += "coolingMethod = \"" + method.text() + "\" OR "
-            metadataQuery = metadataQuery[:-4] + " AND "
+            metadataQuery = metadataQuery[:-4] + ") AND "
         gasList = self.filterGasCompList.selectedItems()
-        if len(gasList) > 0:    
+        # Add Gas Composition filters to query
+        if len(gasList) > 0:
+            metadataQuery += "("
             for gas in gasList:
-                if gas.text() is "":
+                if gas.text() == "":
                     next
                 metadataQuery += "gasComposition = \"" + gas.text() + "\" OR "
-            metadataQuery = metadataQuery[:-4] + " AND "
+            metadataQuery = metadataQuery[:-4] + ") AND "
         matrixList = self.filterMatrixCompList.selectedItems()
+        # Add Matrix Composition filters to query
         if len(matrixList) > 0:
+            metadataQuery += "("
             for matrix in matrixList:
-                if matrix.text() is "":
+                if matrix.text() == "":
                     next
                 metadataQuery += "matrixComposition = \"" + matrix.text() + "\" OR "
+            metadataQuery = metadataQuery[:-4] + ")"
+        else:
+            metadataQuery = metadataQuery[:-5]
         
-        samplesList2 = self.dbConn.getSamplesWithMetadata(metadataQuery[:-4])
+        samplesList2 = self.dbConn.getSamplesWithMetadata(metadataQuery)
 
-        self.samplesList.clear()
-        for sample in set(samplesList1) or set(samplesList2):
-            self.samplesList.addItem(sample[0])
+        # Combine Sample lists and add to GUI list
+        if speciesQuery == "" and metadataQuery == "":
+            return
+        elif speciesQuery == "":
+            self.samplesList.clear()
+            for sample in samplesList2:
+                self.samplesList.addItem(sample[0])
+        elif metadataQuery == "":
+            self.samplesList.clear()
+            for sample in samplesList1:
+                self.samplesList.addItem(sample[0])
+        else:
+            self.samplesList.clear()
+            for sample in set(samplesList1) and set(samplesList2):
+                self.samplesList.addItem(sample[0])
 
     def createPopupMessage(self, title="Title", msg="Message"):
         QtWidgets.QMessageBox.about(self, title, msg)
@@ -425,11 +444,10 @@ class MainUI(QtWidgets.QMainWindow):
         # Create dataframe with 1 column 
         
         # 1 species selected
-        if len(normSpecies) is 1:
+        if len(normSpecies) == 1:
             normDF = pd.DataFrame({'Normalization Factor':simsData['count-'+normSpecies[0].text()]})
-        
         # 2 species selected
-        elif len(normSpecies) is 2:
+        elif len(normSpecies) == 2:
             normDF = pd.DataFrame({'Normalization Factor':simsData['count-'+normSpecies[0].text()]*simsData['count-'+normSpecies[1].text()]})
 
         # Get list of every species count
@@ -462,7 +480,6 @@ class MainUI(QtWidgets.QMainWindow):
             fName = sampleID + fileNameStr + '.csv'
             filename = QtWidgets.QFileDialog.getSaveFileName(self, 'Save File', fName)
             processedDF.to_csv(filename[0])
-            self.createPopupMessage('Success', 'Saved File!')
         except:
             processedDF.to_csv(fName)
             self.createPopupMessage('Error', 'Saved File elsewhere' + fName)

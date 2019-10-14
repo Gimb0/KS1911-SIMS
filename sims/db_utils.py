@@ -2,7 +2,7 @@ import sqlite3
 import os
 
 # Add option to open a database
-DEFAULT_PATH = os.path.join(os.path.dirname(__file__), '../simsdatastore.sqlite3')
+DEFAULT_PATH = os.path.join(os.path.dirname(__file__), 'simsdatastore.sqlite3')
 
 class dbUtils():
     def __init__(self):
@@ -100,7 +100,7 @@ class dbUtils():
             self.cur.execute("""UPDATE sampleData SET annealingTemp = ?, annealingTime = ?, gasComposition = ?, coolingMethod = ?, matrixComposition = ?, sputteringRate = ?, additionalNotes = ? WHERE sampleID = ?""", (annealingTemp, annealingTime, gasComposition, coolingMethod, matrixComposition, sputteringRate, additionalNotes, sampleID))
     
     def insertGasComp(self, gasComposition):
-        if gasComposition is "":
+        if gasComposition == "":
             return
         self.cur.execute("""SELECT gas FROM gasCompositions WHERE gas = ?""", (gasComposition, ))
         data = self.cur.fetchone()
@@ -108,7 +108,7 @@ class dbUtils():
             self.cur.execute("INSERT INTO gasCompositions (gas) VALUES (?)", (gasComposition, ))
 
     def insertCoolingMethod(self, coolingMethod):
-        if coolingMethod is "":
+        if coolingMethod == "":
             return
         self.cur.execute("""SELECT method FROM coolingMethod WHERE method = ?""", (coolingMethod, ))
         data = self.cur.fetchone()
@@ -116,7 +116,7 @@ class dbUtils():
             self.cur.execute("INSERT INTO coolingMethod (method) VALUES (?)", (coolingMethod, ))
 
     def insertAnnealingTemp(self, temperature):
-        if temperature is 0.0:
+        if temperature == 0.0:
             return
         self.cur.execute("""SELECT * FROM annealingTemp WHERE temperature = ?""", (temperature, ))
         data = self.cur.fetchone()
@@ -124,7 +124,7 @@ class dbUtils():
             self.cur.execute("INSERT INTO annealingTemp (temperature) VALUES (?)", (temperature, ))
 
     def insertMatrixComp(self, matrix):
-        if matrix is "":
+        if matrix == "":
             return
         self.cur.execute("""SELECT * FROM matrixCompositions WHERE matrix = ?""", (matrix, ))
         data = self.cur.fetchone()
@@ -132,7 +132,7 @@ class dbUtils():
             self.cur.execute("""INSERT INTO matrixCompositions (matrix) VALUES (?)""", (matrix, ))
 
     def insertSpecies(self, specie):
-        if specie is "":
+        if specie == "":
             return
         self.cur.execute("""SELECT * FROM species WHERE specie = ?""", (specie, ))
         data = self.cur.fetchone()
@@ -188,19 +188,18 @@ class dbUtils():
         return self.cur.fetchone()
 
     def getSampleMetadata(self, sampleID):
-        # Only thing not needed is simsData. Doing * cause lazy
         self.cur.execute("""SELECT * FROM sampleData WHERE sampleID = ?""", (sampleID, ))
         return self.cur.fetchone()
 
     def getSamplesWithSpecies(self, filterQuery):
-        if filterQuery is "":
+        if filterQuery == "":
             return []
-        query = """SELECT sampleID FROM intSpecies WHERE """ + filterQuery
+        query = """SELECT DISTINCT sampleID FROM intSpecies WHERE """ + filterQuery
         self.cur.execute(query)
         return self.cur.fetchall()
 
     def getSamplesWithMetadata(self, filterQuery):
-        if filterQuery is "":
+        if filterQuery == "":
             return []
         query = """SELECT sampleID FROM sampleData WHERE """ + filterQuery
         self.cur.execute(query)
