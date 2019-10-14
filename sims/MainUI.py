@@ -477,9 +477,10 @@ class MainUI(QtWidgets.QMainWindow):
 
         # Allow user to select where to save file
         try:
-            fName = sampleID + fileNameStr + '.csv'
+            fName = sampleID + "_" + fileNameStr + '.csv'
             filename = QtWidgets.QFileDialog.getSaveFileName(self, 'Save File', fName)
             processedDF.to_csv(filename[0])
+            self.createPopupMessage("Success", "Saved file successfully")
         except:
             processedDF.to_csv(fName)
             self.createPopupMessage('Error', 'Saved File elsewhere' + fName)
